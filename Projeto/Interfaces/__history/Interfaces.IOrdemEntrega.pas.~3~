@@ -1,0 +1,39 @@
+unit Interfaces.IOrdemEntrega;
+
+interface
+
+uses
+  System.SysUtils, FireDAC.Comp.Client;
+
+type
+  IOrdemEntrega = interface
+    ['{D1D68163-7A50-482E-AA0D-1EFB6A650784}']
+    FIdOrdemEntrega: Integer;
+    FEntregadorOrdenEntrega: Integer;
+    FEmissaoOrdemEntrega: TDateTime;
+    FSaidaOrdemEntrega: TDateTime;
+    FChegadaOrdemEntrega: TDateTime;
+    FStatusOrdemEntrega: SmallInt;
+    FOBSOrdemEntrega: string;
+
+    procedure SetStatusOrdemEntrega(const Value: SmallInt);
+
+    property IdOrdemEntrega: Integer read FIdOrdemEntrega write FIdOrdemEntrega;
+    property EntregadorOrdenEntrega: Integer read FEntregadorOrdenEntrega write FEntregadorOrdenEntrega;
+    property EmissaoOrdemEntrega: TDateTime read FEmissaoOrdemEntrega write FEmissaoOrdemEntrega;
+    property SaidaOrdemEntrega: TDateTime read FSaidaOrdemEntrega write FSaidaOrdemEntrega;
+    property ChegadaOrdemEntrega: TDateTime read FChegadaOrdemEntrega write FChegadaOrdemEntrega;
+    property StatusOrdemEntrega: SmallInt read FStatusOrdemEntrega write SetStatusOrdemEntrega;
+    property OBSOrdemEntrega: string read FOBSOrdemEntrega write FOBSOrdemEntrega;
+
+
+    function Salvar: Boolean;
+    function Excluir(const AId: Integer): Boolean;
+    procedure CarregarDados(const AFDMemTable: TFDMemTable;
+      pidOrdemEntrega, pNomeEntregador, pLimite: String;
+      pDtIni, pDtFin : TDate; pStatus : Integer);
+  end;
+
+implementation
+
+end.

@@ -1,0 +1,260 @@
+unit Model.PedidosEntrega;
+
+interface
+
+uses
+  Interfaces.IPedidosEntrega, FireDAC.Comp.Client, Data.DB, Utils.DatabaseConnection;
+
+type
+  TPedidosEntrega = class(TInterfacedObject, IPedidosEntrega)
+  private
+    FIdPedidosEntrega: Integer;
+    FPedidoPedidosEntrega: Integer;
+    FOrdemEntregaPedidosEntrega: Integer;
+    FStatusPedidosEntrega: SmallInt;
+    FOBSPedidosEntrega: string;
+
+    FQuery: TFDQuery;
+    FDatabaseConnection: TDatabaseConnection;
+
+    procedure SetIdPedidosEntrega(const Value: Integer);
+    function GetIdPedidosEntrega: Integer;
+
+    procedure SetPedidoPedidosEntrega(const Value: Integer);
+    function GetPedidoPedidosEntrega: Integer;
+
+    procedure SetOrdemEntregaPedidosEntrega(const Value: Integer);
+    function GetOrdemEntregaPedidosEntrega: Integer;
+
+    procedure SetStatusPedidosEntrega(const Value: SmallInt);
+    function GetStatusPedidosEntrega: SmallInt;
+
+    procedure SetOBSPedidosEntrega(const Value: string);
+    function GetOBSPedidosEntrega: string;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property IdPedidosEntrega: Integer read GetIdPedidosEntrega write SetIdPedidosEntrega;
+    property PedidoPedidosEntrega: Integer read GetPedidoPedidosEntrega write SetPedidoPedidosEntrega;
+    property OrdemEntregaPedidosEntrega: Integer read GetOrdemEntregaPedidosEntrega write SetOrdemEntregaPedidosEntrega;
+    property StatusPedidosEntrega: SmallInt read GetStatusPedidosEntrega write SetStatusPedidosEntrega;
+    property OBSPedidosEntrega: string read GetOBSPedidosEntrega write SetOBSPedidosEntrega;
+
+    function Salvar: Boolean; // Implementação do método Salvar
+    function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
+
+    procedure CarregarDados(const AFDMemTable: TFDMemTable; pOrdemEntrega: String); // Implementação do método CarregarDados
+end;
+
+implementation
+
+uses
+  FireDAC.DApt, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.MySQL,
+  FireDAC.Phys.MySQLDef, System.SysUtils, System.Classes, Vcl.Dialogs, Utils.ErrorLogger;
+
+{ TPedidosEntrega }
+
+constructor TPedidosEntrega.Create;
+begin
+  // Usa a conexão centralizada com parâmetros do arquivo .INI
+  FDatabaseConnection := TDatabaseConnection.Create;
+  FQuery := TFDQuery.Create(nil);
+  FQuery.Connection := FDatabaseConnection.Connection;
+end;
+
+destructor TPedidosEntrega.Destroy;
+begin
+  FQuery.Free;
+  FDatabaseConnection.Free;
+  inherited;
+end;
+
+// Métodos Set e Get
+procedure TPedidosEntrega.SetIdPedidosEntrega(const Value: Integer);
+begin
+  if Value < 0 then
+    raise Exception.Create('ID do pedido de entrega não pode ser negativo.');
+  FIdPedidosEntrega := Value;
+end;
+
+function TPedidosEntrega.GetIdPedidosEntrega: Integer;
+begin
+  Result := FIdPedidosEntrega;
+end;
+
+procedure TPedidosEntrega.SetPedidoPedidosEntrega(const Value: Integer);
+begin
+  if Value < 0 then
+    raise Exception.Create('Pedido não pode ser negativo.');
+  FPedidoPedidosEntrega := Value;
+end;
+
+function TPedidosEntrega.GetPedidoPedidosEntrega: Integer;
+begin
+  Result := FPedidoPedidosEntrega;
+end;
+
+procedure TPedidosEntrega.SetOrdemEntregaPedidosEntrega(const Value: Integer);
+begin
+  if Value < 0 then
+    raise Exception.Create('Ordem de entrega não pode ser negativa.');
+  FOrdemEntregaPedidosEntrega := Value;
+end;
+
+function TPedidosEntrega.GetOrdemEntregaPedidosEntrega: Integer;
+begin
+  Result := FOrdemEntregaPedidosEntrega;
+end;
+
+procedure TPedidosEntrega.SetStatusPedidosEntrega(const Value: SmallInt);
+begin
+  if not (Value in [0, 1, 2, 3]) then
+    raise Exception.Create('Status inválido! Valores permitidos: 0, 1, 2, 3.');
+  FStatusPedidosEntrega := Value;
+end;
+
+function TPedidosEntrega.GetStatusPedidosEntrega: SmallInt;
+begin
+  Result := FStatusPedidosEntrega;
+end;
+
+procedure TPedidosEntrega.SetOBSPedidosEntrega(const Value: string);
+begin
+  if Length(Value) > 1000 then
+    raise Exception.Create('Observação não pode ter mais de 1000 caracteres.');
+  FOBSPedidosEntrega := Value;
+end;
+
+function TPedidosEntrega.GetOBSPedidosEntrega: string;
+begin
+  Result := FOBSPedidosEntrega;
+end;
+
+
+function TPedidosEntrega.Salvar: Boolean;
+var
+  Logger: TErrorLogger;
+begin
+  Result := False;
+  Logger := TErrorLogger.Create; // Usa o caminho padrão 'error.log'
+  try
+
+  FDatabaseConnection.Connection.StartTransaction;
+  try
+    // Prepara a query para inserir ou atualizar o item de pedido
+    FQuery.SQL.Clear;
+    if FIdPedidosEntrega = 0 then
+    begin
+      // Inserir novo item de pedido
+      FQuery.SQL.Add('INSERT INTO ItensPedido (IdItensPedido, PedidoItensPedido, '+
+                                             ' ProdutoItensPedido,    '+
+                                             ' QuantidadeItensPedido, '+
+                                             ' VlrUnitarioItensPedido,'+
+                                             ' VlrTotalItensPedido)');
+      FQuery.SQL.Add('VALUES (GEN_ID(GEN_ItensPedido_ID, 1), :Pedido, :Produto, :Quantidade, :ValorUnitario, :ValorTotal)');
+    end
+    else
+    begin
+      // Atualizar item de pedido existente
+      FQuery.SQL.Add('UPDATE ItensPedido SET');
+      FQuery.SQL.Add('PedidoItensPedido = :Pedido,');
+      FQuery.SQL.Add('ProdutoItensPedido = :Produto,');
+      FQuery.SQL.Add('QuantidadeItensPedido = :Quantidade,');
+      FQuery.SQL.Add('VlrUnitarioItensPedido = :ValorUnitario,');
+      FQuery.SQL.Add('VlrTotalItensPedido = :ValorTotal');
+      FQuery.SQL.Add('WHERE idItensPedido = :IdItemPedido');
+      FQuery.ParamByName('IdItemPedido').AsInteger := FIdPedidosEntrega;
+    end;
+
+    // Define os parâmetros da query
+    FQuery.ParamByName('Pedido').AsInteger := FPedido;
+    FQuery.ParamByName('Produto').AsInteger := FProduto;
+    FQuery.ParamByName('Quantidade').AsFloat := FQuantidade;
+    FQuery.ParamByName('ValorUnitario').AsFloat := FValorUnitario;
+    FQuery.ParamByName('ValorTotal').AsFloat := FValorTotal;
+
+    // Executa a query
+    FQuery.ExecSQL;
+
+    // Se for uma inserção, recupera o ID gerado
+    if FIdPedidosEntrega = 0 then
+    begin
+      FQuery.SQL.Clear;
+      FQuery.SQL.Add('SELECT GEN_ID(GEN_PedidosEntrega_ID, 0) AS LastID FROM RDB$DATABASE ');
+      FQuery.Open;
+      FIdPedidosEntrega := FQuery.FieldByName('LastID').AsInteger;
+    end;
+
+    FDatabaseConnection.Connection.Commit;
+    Result := True; // Indica que o item de pedido foi salvo com sucesso
+  except
+    on E: Exception do
+    begin
+      FDatabaseConnection.Connection.Rollback;
+      Logger.LogError(E);
+      raise Exception.Create('Erro ao salvar item de pedido: ' + E.Message);
+    end;
+  end;
+
+  finally
+    Logger.Free;
+  end;
+end;
+
+procedure TPedidosEntrega.CarregarDados(const AFDMemTable: TFDMemTable; pOrdementrega: String);
+begin
+  try
+    // Prepara a query para selecionar os dados
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add(' SELECT a.idItensPedido, b.CodigoProdutos, a.PedidoItensPedido,');
+    FQuery.SQL.Add('        a.ProdutoItensPedido, a.QuantidadeItensPedido,');
+    FQuery.SQL.Add('        a.VlrUnitarioItensPedido, a.VlrTotalItensPedido,');
+    FQuery.SQL.Add('        c.descricaotipoproduto, b.DescricaoProdutos');
+    FQuery.SQL.Add(' FROM ItensPedido a ');
+    FQuery.SQL.Add(' JOIN Produtos b ON b.idProdutos = a.ProdutoItensPedido ');
+    FQuery.SQL.Add(' JOIN TipoProduto c ON c.idTipoProduto = b.TipoProdutoProdutos');
+    if not pOrdementrega.IsEmpty then
+      FQuery.SQL.Add(' WHERE a.PedidoItensPedido = '+pPedido);
+    FQuery.SQL.Add(' ORDER BY a.ProdutoItensPedido ');
+    FQuery.Open;
+
+    // Copia os dados para o TFDMemTable
+    begin
+      AFDMemTable.Close;
+      AFDMemTable.Data := FQuery.Data;
+      AFDMemTable.Open;
+    end;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Erro ao carregar dados: ' + E.Message);
+    end;
+  end;
+end;
+
+function TPedidosEntrega.Excluir(const AId: Integer): Boolean;
+begin
+  Result := False;
+  try
+    // Prepara a query para excluir o item de pedido
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('DELETE FROM ItensPedido WHERE idItensPedido = :IdItemPedido');
+    FQuery.ParamByName('IdItemPedido').AsInteger := AId;
+
+    // Executa a query
+    FQuery.ExecSQL;
+
+    Result := True; // Indica que o item de pedido foi excluído com sucesso
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Erro ao excluir item de pedido: ' + E.Message);
+    end;
+  end;
+end;
+
+end.

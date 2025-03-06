@@ -17,6 +17,8 @@ const
   cAcaoIncluir = 'Incluir';
   cAcaoExcluir = 'Excluir';
   cZero = 0;
+  cTwo = 2;
+  cFour = 4;
 
 implementation
 

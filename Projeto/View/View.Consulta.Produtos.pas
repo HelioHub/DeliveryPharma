@@ -25,6 +25,10 @@ type
     FDMemTableProdutoDescricaoProdutos: TStringField;
     FDMemTableProdutoidProdutos: TIntegerField;
     FDMemTableProdutoPrecoVendaProdutos: TFMTBCDField;
+    FDMemTableProdutoCodigoProdutos: TStringField;
+    FDMemTableProdutoDescricaoTipoProduto: TStringField;
+    FDMemTableProdutoQuantidadeProdutos: TFMTBCDField;
+    FDMemTableProdutoUndProdutos: TStringField;
     procedure BBSairClick(Sender: TObject);
     procedure DBGViewDblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -99,7 +103,8 @@ begin
   // Carrega os dados no TFDMemTable
   FProdutoController.CarregarDadosProdutos(
    FDMemTableProduto,
-    LEFiltroDescricaoItem.Text
+    UpperCase(LEFiltroDescricaoItem.Text),
+    ''
   );
 end;
 

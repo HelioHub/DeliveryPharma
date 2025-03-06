@@ -1,52 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatorio de Clientes</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { color: #333; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
-    tr:nth-child(even) { background-color: #f9f9f9; }
-    tr:hover { background-color: #f1f1f1; }
-  </style>
-</head>
-<body>
-  <h1>Relatorio de Clientes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Codigo</th>
-        <th>Nome</th>
-        <th>CNPJ</th>
-        <th>CEP</th>
-        <th>Rua</th>
-        <th>Numero</th>
-        <th>Bairro</th>
-        <th>Cidade</th>
-        <th>UF</th>
-        <th>Nome Fantasia</th>
-        <th>Situacao Cadastral</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>ADYEN DO BRASIL INSTITUICAO DE PAGAMENTO LTDA.</td>
-        <td>14796606000190</td>
-        <td>60744325</td>
-        <td>Rua Shirley Girão</td>
-        <td>571</td>
-        <td>Passaré</td>
-        <td>Fortaleza</td>
-        <td>CE</td>
-        <td>ADYEN LATIN AMERICA</td>
-        <td>ATIVA</td>
-      </tr>
-    </tbody>
-  </table>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Relatorio de Pedido</title>  <style>    body { font-family: Arial, sans-serif; margin: 20px; }    .cabecalho { margin-bottom: 20px; }    .tabela-itens { width: 100%; border-collapse: collapse; margin-bottom: 20px; }    .tabela-itens th, .tabela-itens td { border: 1px solid #ddd; padding: 8px; text-align: left; }    .tabela-itens th { background-color: #f2f2f2; }    .rodape { margin-top: 20px; font-weight: bold; }  </style></head><body>
+<div class="cabecalho">  <h1>Pedido: 1</h1>  <p><strong>Data de Emissao:</strong> 06/03/2025</p>  <p><strong>Cliente:</strong> B3 S.A. - BRASIL, BOLSA, BALCAO</p></div>
+<table class="tabela-itens">  <thead>    <tr>      <th>Item</th>      <th>Produto</th>      <th>Quantidade</th>      <th>Valor Unitario</th>      <th>Valor Total</th>    </tr>  </thead>  <tbody><tr>  <td>1</td>  <td>Paracetamol</td>  <td>10</td>  <td style="text-align: right;">R$ 9,00</td>  <td style="text-align: right;">R$ 90,00</td></tr><tr>  <td>2</td>  <td>Shampoo</td>  <td>20</td>  <td style="text-align: right;">R$ 54,90</td>  <td style="text-align: right;">R$ 1.098,00</td></tr></tbody></table>
+<div class="rodape">  <p><strong>Total do Pedido:</strong> R$ 1.188,00</p></div>
+<div class="cabecalho">  <h1>Pedido: 2</h1>  <p><strong>Data de Emissao:</strong> 06/03/2025</p>  <p><strong>Cliente:</strong> ROBERIO JOSE DOS SANTOS 16952477870</p></div>
+<table class="tabela-itens">  <thead>    <tr>      <th>Item</th>      <th>Produto</th>      <th>Quantidade</th>      <th>Valor Unitario</th>      <th>Valor Total</th>    </tr>  </thead>  <tbody><tr>  <td>3</td>  <td>Creme Hidratante</td>  <td>2</td>  <td style="text-align: right;">R$ 36,00</td>  <td style="text-align: right;">R$ 72,00</td></tr><tr>  <td>4</td>  <td>Rivotril</td>  <td>3</td>  <td style="text-align: right;">R$ 18,00</td>  <td style="text-align: right;">R$ 54,00</td></tr></tbody></table>
+<div class="rodape">  <p><strong>Total do Pedido:</strong> R$ 126,00</p></div>
+</body></html>

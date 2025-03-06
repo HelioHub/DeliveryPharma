@@ -198,6 +198,19 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Utils\Utils.uBrasilAPI.pas"/>
+        <DCCReference Include="View\View.OrdemEntrega.pas">
+            <Form>FViewOrdemEntrega</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Interfaces\Interfaces.IOrdemEntrega.pas"/>
+        <DCCReference Include="Model\Model.OrdemEntrega.pas"/>
+        <DCCReference Include="Controller\Controller.OrdemEntregaController.pas"/>
+        <DCCReference Include="Model\Model.PedidosEntrega.pas"/>
+        <DCCReference Include="Interfaces\Interfaces.IPedidosEntrega.pas"/>
+        <DCCReference Include="Controller\Controller.PedidosEntregaController.pas"/>
+        <DCCReference Include="Model\Model.Entregador.pas"/>
+        <DCCReference Include="Interfaces\Interfaces.IEntregador.pas"/>
+        <DCCReference Include="Controller\Controller.EntregadorController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

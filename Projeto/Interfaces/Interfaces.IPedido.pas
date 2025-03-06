@@ -27,7 +27,7 @@ type
     function Excluir(const AId: Integer): Boolean; // Método para excluir um pedido
     procedure CarregarDados(const AFDMemTable: TFDMemTable;
       pNumeroPedido, pNomeCliente, pLimite: String;
-      pDtIni, pDtFin : TDate); // Método para carregar dados
+      pDtIni, pDtFin : TDate; pStatus : Integer); // Método para carregar dados
   end;
 
 implementation

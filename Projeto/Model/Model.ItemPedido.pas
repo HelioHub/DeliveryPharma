@@ -111,12 +111,12 @@ begin
   try
     // Prepara a query para selecionar os dados
     FQuery.SQL.Clear;
-    FQuery.SQL.Add(' SELECT pr.CodigoProdutos,');
+    FQuery.SQL.Add(' SELECT pr.idProdutos,');
     FQuery.SQL.Add('        pr.DescricaoProdutos,');
     FQuery.SQL.Add('        SUM(ip.QuantidadeItensPedido) AS TotalVendido');
     FQuery.SQL.Add(' FROM ItensPedido ip');
-    FQuery.SQL.Add(' JOIN Produtos pr ON ip.ProdutoItensPedido = pr.CodigoProdutos');
-    FQuery.SQL.Add(' GROUP BY pr.CodigoProdutos, pr.DescricaoProdutos');
+    FQuery.SQL.Add(' JOIN Produtos pr ON ip.ProdutoItensPedido = pr.idProdutos');
+    FQuery.SQL.Add(' GROUP BY pr.idProdutos, pr.DescricaoProdutos');
     FQuery.SQL.Add(' ORDER BY TotalVendido DESC');
     FQuery.Open;
 
@@ -175,9 +175,9 @@ begin
   try
     // Prepara a query para calcular o total dos itens do pedido
     FQuery.SQL.Clear;
-    FQuery.SQL.Add('SELECT SUM(VlrTotalItensPedido) AS TotalItens');
-    FQuery.SQL.Add('FROM ItensPedido');
-    FQuery.SQL.Add('WHERE PedidoItensPedido = :Pedido');
+    FQuery.SQL.Add(' SELECT SUM(VlrTotalItensPedido) AS TotalItens ');
+    FQuery.SQL.Add(' FROM ItensPedido ');
+    FQuery.SQL.Add(' WHERE PedidoItensPedido = :Pedido ');
     FQuery.ParamByName('Pedido').AsInteger := AIdPedido;
     FQuery.Open;
 
@@ -207,7 +207,7 @@ begin
     if FIdItemPedido = 0 then
     begin
       // Inserir novo item de pedido
-      FQuery.SQL.Add('INSERT INTO ItensPedido (IdItemPedido, PedidoItensPedido, '+
+      FQuery.SQL.Add('INSERT INTO ItensPedido (IdItensPedido, PedidoItensPedido, '+
                                              ' ProdutoItensPedido,    '+
                                              ' QuantidadeItensPedido, '+
                                              ' VlrUnitarioItensPedido,'+
@@ -267,12 +267,13 @@ begin
   try
     // Prepara a query para selecionar os dados
     FQuery.SQL.Clear;
-    FQuery.SQL.Add(' SELECT a.idItensPedido, a.PedidoItensPedido,');
+    FQuery.SQL.Add(' SELECT a.idItensPedido, b.CodigoProdutos, a.PedidoItensPedido,');
     FQuery.SQL.Add('        a.ProdutoItensPedido, a.QuantidadeItensPedido,');
     FQuery.SQL.Add('        a.VlrUnitarioItensPedido, a.VlrTotalItensPedido,');
-    FQuery.SQL.Add('        b.DescricaoProdutos');
+    FQuery.SQL.Add('        c.descricaotipoproduto, b.DescricaoProdutos');
     FQuery.SQL.Add(' FROM ItensPedido a ');
-    FQuery.SQL.Add(' JOIN Produtos b ON b.CodigoProdutos = a.ProdutoItensPedido ');
+    FQuery.SQL.Add(' JOIN Produtos b ON b.idProdutos = a.ProdutoItensPedido ');
+    FQuery.SQL.Add(' JOIN TipoProduto c ON c.idTipoProduto = b.TipoProdutoProdutos');
     if not pPedido.IsEmpty then
       FQuery.SQL.Add(' WHERE a.PedidoItensPedido = '+pPedido);
     FQuery.SQL.Add(' ORDER BY a.ProdutoItensPedido ');
@@ -386,7 +387,7 @@ begin
       'from pedidos a ' +
       'inner join itenspedido b on b.PedidoItensPedido = a.NumeroPedidos ' +
       'inner join clientes c on c.CodigoClientes = a.ClientePedidos ' +
-      'inner join produtos d on d.CodigoProdutos = b.ProdutoItensPedido ' +
+      'inner join produtos d on d.idProdutos = b.ProdutoItensPedido ' +
       'where a.DataEmissaoPedidos BETWEEN :pDtIni AND :pDtFin '+
       'order by a.NumeroPedidos';
     FQuery.ParamByName('pDtIni').AsDate := pDtIni;
@@ -440,10 +441,10 @@ var
   MaxTotalVendido: Integer;
 begin
   FQuery.SQL.Text :=
-    'SELECT pr.CodigoProdutos, pr.DescricaoProdutos, SUM(ip.QuantidadeItensPedido) AS TotalVendido ' +
+    'SELECT pr.idProdutos, pr.DescricaoProdutos, SUM(ip.QuantidadeItensPedido) AS TotalVendido ' +
     'FROM ItensPedido ip ' +
-    'JOIN Produtos pr ON ip.ProdutoItensPedido = pr.CodigoProdutos ' +
-    'GROUP BY pr.CodigoProdutos, pr.DescricaoProdutos ' +
+    'JOIN Produtos pr ON ip.ProdutoItensPedido = pr.idProdutos ' +
+    'GROUP BY pr.idProdutos, pr.DescricaoProdutos ' +
     'ORDER BY TotalVendido DESC';
   FQuery.Open;
 
@@ -512,10 +513,10 @@ var
   i: Integer;
 begin
     FQuery.SQL.Text :=
-      'SELECT pr.CodigoProdutos, pr.DescricaoProdutos, SUM(ip.QuantidadeItensPedido) AS TotalVendido ' +
+      'SELECT pr.idProdutos, pr.DescricaoProdutos, SUM(ip.QuantidadeItensPedido) AS TotalVendido ' +
       'FROM ItensPedido ip ' +
-      'JOIN Produtos pr ON ip.ProdutoItensPedido = pr.CodigoProdutos ' +
-      'GROUP BY pr.CodigoProdutos, pr.DescricaoProdutos ' +
+      'JOIN Produtos pr ON ip.ProdutoItensPedido = pr.idProdutos ' +
+      'GROUP BY pr.idProdutos, pr.DescricaoProdutos ' +
       'ORDER BY TotalVendido DESC';
     FQuery.Open;
 

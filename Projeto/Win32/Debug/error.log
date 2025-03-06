@@ -4,3 +4,8 @@ SQL error code = -206
 Column unknown
 CODIGOCLIENTE
 At line 1, column 23
+06/03/2025 03:18:52 - Erro: EIBNativeException - [FireDAC][Phys][FB]Dynamic SQL Error
+SQL error code = -206
+Column unknown
+IDITEMPEDIDO
+At line 1, column 26

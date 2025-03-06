@@ -16,12 +16,12 @@ type
     DBGView: TDBGrid;
     DSItensPedido: TDataSource;
     ItensMemTable: TFDMemTable;
-    ItensMemTableCodigoProdutos: TIntegerField;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     ItensMemTableDescricaoProdutos: TStringField;
     ItensMemTableTotalVendido: TFMTBCDField;
+    ItensMemTableidProdutos: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
   private

@@ -5,8 +5,8 @@ object FViewPedidos: TFViewPedidos
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Pedidos'
-  ClientHeight = 466
-  ClientWidth = 641
+  ClientHeight = 535
+  ClientWidth = 853
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,15 +19,16 @@ object FViewPedidos: TFViewPedidos
   object PHead: TPanel
     Left = 0
     Top = 0
-    Width = 641
+    Width = 853
     Height = 44
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 641
     DesignSize = (
-      641
+      853
       44)
     object LNR: TLabel
-      Left = 527
+      Left = 739
       Top = 16
       Width = 73
       Height = 13
@@ -39,6 +40,7 @@ object FViewPedidos: TFViewPedidos
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 527
     end
     object BBIncluir: TBitBtn
       Left = 5
@@ -123,7 +125,7 @@ object FViewPedidos: TFViewPedidos
       OnClick = BBSairClick
     end
     object ENR: TEdit
-      Left = 602
+      Left = 814
       Top = 13
       Width = 33
       Height = 21
@@ -137,8 +139,9 @@ object FViewPedidos: TFViewPedidos
       Font.Style = [fsBold]
       NumbersOnly = True
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 8
       Text = '100'
+      ExplicitLeft = 602
     end
     object BBProdutoMaisVendido: TBitBtn
       Left = 276
@@ -183,7 +186,7 @@ object FViewPedidos: TFViewPedidos
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 5
+      TabOrder = 6
       OnClick = BBRelatorioClick
     end
     object BBGrafico: TBitBtn
@@ -205,32 +208,58 @@ object FViewPedidos: TFViewPedidos
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 7
+      TabOrder = 5
       OnClick = BBGraficoClick
+    end
+    object BBOrdens: TBitBtn
+      Left = 545
+      Top = 8
+      Width = 152
+      Height = 30
+      Hint = 'Ger'#234'ncia das Ordens de Entrega'
+      Cancel = True
+      Caption = 'Ordens de Entrega'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ImageIndex = 5
+      Images = DMUtils.ILImagensSystem
+      NumGlyphs = 2
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+      OnClick = BBOrdensClick
     end
   end
   object PRodape: TPanel
     Left = 0
-    Top = 337
-    Width = 641
+    Top = 406
+    Width = 853
     Height = 24
     Align = alBottom
     Alignment = taLeftJustify
     Caption = '   Itens do Pedido:'
     TabOrder = 4
+    ExplicitTop = 337
+    ExplicitWidth = 641
   end
   object PViewPedidos: TPanel
     Left = 0
     Top = 116
-    Width = 641
-    Height = 221
+    Width = 853
+    Height = 290
     Align = alClient
     TabOrder = 2
+    ExplicitWidth = 641
+    ExplicitHeight = 221
     object DBGView: TDBGrid
       Left = 1
       Top = 1
-      Width = 639
-      Height = 219
+      Width = 851
+      Height = 288
       Hint = 'Duplo Click para Alterar o Pedido...'
       Align = alClient
       DataSource = DSViewPedidos
@@ -263,7 +292,7 @@ object FViewPedidos: TFViewPedidos
           FieldName = 'DataEmissaoPedidos'
           Title.Alignment = taCenter
           Title.Caption = 'Data de Emiss'#227'o'
-          Width = 124
+          Width = 136
           Visible = True
         end
         item
@@ -279,7 +308,7 @@ object FViewPedidos: TFViewPedidos
           Expanded = False
           FieldName = 'NomeClientes'
           Title.Caption = 'Nome do Cliente'
-          Width = 243
+          Width = 295
           Visible = True
         end
         item
@@ -288,7 +317,13 @@ object FViewPedidos: TFViewPedidos
           FieldName = 'ValorTotalPedidos'
           Title.Alignment = taRightJustify
           Title.Caption = 'Total do Pedido'
-          Width = 90
+          Width = 113
+          Visible = True
+        end
+        item
+          Color = 8454143
+          Expanded = False
+          FieldName = 'Status'
           Visible = True
         end>
     end
@@ -296,12 +331,13 @@ object FViewPedidos: TFViewPedidos
   object PFiltrar: TPanel
     Left = 0
     Top = 44
-    Width = 641
+    Width = 853
     Height = 72
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 641
     DesignSize = (
-      641
+      853
       72)
     object LDT: TLabel
       Left = 14
@@ -379,9 +415,9 @@ object FViewPedidos: TFViewPedidos
       Text = ''
     end
     object BBAtualizar: TBitBtn
-      Left = 539
+      Left = 739
       Top = 5
-      Width = 75
+      Width = 87
       Height = 61
       Anchors = [akTop, akRight]
       Caption = 'Filtra&r'
@@ -395,6 +431,7 @@ object FViewPedidos: TFViewPedidos
       ParentFont = False
       TabOrder = 4
       OnClick = BBAtualizarClick
+      ExplicitLeft = 748
     end
     object DTPDEIni: TDateTimePicker
       Left = 150
@@ -414,18 +451,34 @@ object FViewPedidos: TFViewPedidos
       Time = 0.829977719906310100
       TabOrder = 3
     end
+    object RGStatus: TRadioGroup
+      Left = 529
+      Top = 4
+      Width = 192
+      Height = 62
+      Caption = 'Status'
+      Columns = 2
+      ItemIndex = 2
+      Items.Strings = (
+        'Em Aberto'
+        'Fechado '
+        'Todos')
+      TabOrder = 5
+    end
   end
   object PViewItensPedido: TPanel
     Left = 0
-    Top = 361
-    Width = 641
+    Top = 430
+    Width = 853
     Height = 105
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 361
+    ExplicitWidth = 641
     object DBGViewItens: TDBGrid
       Left = 1
       Top = 1
-      Width = 639
+      Width = 851
       Height = 103
       Align = alClient
       DataSource = DSItensPedido
@@ -460,9 +513,23 @@ object FViewPedidos: TFViewPedidos
         end
         item
           Expanded = False
+          FieldName = 'CodigoProdutos'
+          Title.Caption = 'C'#243'digo'
+          Width = 72
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DescricaoTipoProduto'
+          Title.Caption = 'Tipo'
+          Width = 144
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'DescricaoProdutos'
           Title.Caption = 'Descri'#231#227'o do Item'
-          Width = 240
+          Width = 257
           Visible = True
         end
         item
@@ -478,7 +545,7 @@ object FViewPedidos: TFViewPedidos
           FieldName = 'VlrUnitarioItensPedido'
           Title.Alignment = taRightJustify
           Title.Caption = 'Pre'#231'o Venda'
-          Width = 98
+          Width = 75
           Visible = True
         end
         item
@@ -528,6 +595,9 @@ object FViewPedidos: TFViewPedidos
     object PedidosMemTableValorTotalPedidos: TFMTBCDField
       FieldName = 'ValorTotalPedidos'
       DisplayFormat = '###,##0.00'
+    end
+    object PedidosMemTableStatus: TStringField
+      FieldName = 'Status'
     end
   end
   object PMOptions: TPopupMenu
@@ -579,6 +649,14 @@ object FViewPedidos: TFViewPedidos
     end
     object ItensMemTableProdutoItensPedido: TIntegerField
       FieldName = 'ProdutoItensPedido'
+    end
+    object ItensMemTableCodigoProdutos: TStringField
+      FieldName = 'CodigoProdutos'
+      Size = 10
+    end
+    object ItensMemTableDescricaoTipoProduto: TStringField
+      FieldName = 'DescricaoTipoProduto'
+      Size = 50
     end
     object ItensMemTableDescricaoProdutos: TStringField
       FieldName = 'DescricaoProdutos'

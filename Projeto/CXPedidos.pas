@@ -16,11 +16,13 @@ type
     LWK: TLabel;
     BExecFolder: TButton;
     BBCadClientes: TBitBtn;
+    BBOrdemEntrega: TBitBtn;
     procedure BBFecharClick(Sender: TObject);
     procedure LWKClick(Sender: TObject);
     procedure BBCadPedidosClick(Sender: TObject);
     procedure BExecFolderClick(Sender: TObject);
     procedure BBCadClientesClick(Sender: TObject);
+    procedure BBOrdemEntregaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,7 +37,7 @@ implementation
 {$R *.dfm}
 
 uses View.Show.MaisVendido, View.Show.Atencao, CXConst, View.Pedidos,
-  Utils.DMUtils, View.Clientes;
+  Utils.DMUtils, View.Clientes, View.OrdemEntrega;
 
 
 procedure TFWKPedidos.BBCadClientesClick(Sender: TObject);
@@ -55,6 +57,12 @@ begin
   FViewAtencao := TFViewAtencao.Create(Application);
   FViewAtencao.ShowModal;
   Application.Terminate;
+end;
+
+procedure TFWKPedidos.BBOrdemEntregaClick(Sender: TObject);
+begin
+  FViewOrdemEntrega := TFViewOrdemEntrega.Create(Application);
+  FViewOrdemEntrega.ShowModal;
 end;
 
 procedure TFWKPedidos.BExecFolderClick(Sender: TObject);

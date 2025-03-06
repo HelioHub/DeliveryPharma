@@ -38,7 +38,7 @@ type
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
     procedure CarregarDados(const AFDMemTable: TFDMemTable;
       pNumeroPedido, pNomeCliente, pLimite: String;
-      pDtIni, pDtFin : TDate); // Implementação do método CarregarDados
+      pDtIni, pDtFin : TDate; pStatus : Integer); // Implementação do método CarregarDados
   end;
 
 implementation
@@ -48,7 +48,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.MySQL,
   FireDAC.Phys.MySQLDef, System.SysUtils, Vcl.Dialogs,
-  Utils.ErrorLogger;
+  Utils.ErrorLogger, CXConst;
 
 { TPedido }
 
@@ -175,7 +175,7 @@ end;
 
 procedure TPedido.CarregarDados(const AFDMemTable: TFDMemTable;
   pNumeroPedido, pNomeCliente, pLimite: String;
-  pDtIni, pDtFin : TDate);
+  pDtIni, pDtFin : TDate; pStatus : Integer);
 begin
   try
     // Prepara a query para selecionar os dados
@@ -184,6 +184,11 @@ begin
     FQuery.SQL.Add(' 	p.NumeroPedidos,     ');
     FQuery.SQL.Add(' 	p.DataEmissaoPedidos,');
     FQuery.SQL.Add('  p.ClientePedidos,    ');
+    FQuery.SQL.Add(' CASE                  ');
+    FQuery.SQL.Add('   WHEN p.StatusPedidos = 0 THEN '+QuotedStr('Em aberto'));
+    FQuery.SQL.Add('   WHEN p.StatusPedidos = 1 THEN '+QuotedStr('Fechado'));
+    FQuery.SQL.Add('   ELSE '+QuotedStr('Desconhecido'));
+    FQuery.SQL.Add(' END AS Status, ');
     FQuery.SQL.Add(' 	c.NomeClientes,      ');
     FQuery.SQL.Add('  (SELECT SUM(ip.VlrTotalItensPedido)           '+
                    '   FROM ItensPedido ip                '+
@@ -197,7 +202,9 @@ begin
     if Not pNumeroPedido.IsEmpty then
       FQuery.SQL.Add('	AND p.NumeroPedidos = '+pNumeroPedido);
     if Not pNomeCliente.IsEmpty then
-      FQuery.SQL.Add('	AND c.NomeClientes LIKE '+QuotedStr(pNomeCliente+'%'));
+      FQuery.SQL.Add('	AND UPPER(c.NomeClientes) LIKE '+QuotedStr(UpperCase(pNomeCliente)+'%'));
+    if pStatus <> cTwo then
+      FQuery.SQL.Add('	AND p.StatusPedidos = '+IntToStr(pStatus));
     FQuery.SQL.Add('	ORDER BY');
     FQuery.SQL.Add('		p.DataEmissaoPedidos DESC');
     if Not pLimite.IsEmpty then

@@ -3,8 +3,8 @@ object FWKPedidos: TFWKPedidos
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'CX Teste T'#233'cnico Pedidos e Clientes'
-  ClientHeight = 279
+  Caption = 'Sistema de Entrega dos Pedidos'
+  ClientHeight = 462
   ClientWidth = 354
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -59,10 +59,11 @@ object FWKPedidos: TFWKPedidos
     OnClick = BBCadPedidosClick
   end
   object BBFechar: TBitBtn
-    Left = 0
-    Top = 180
-    Width = 354
-    Height = 64
+    AlignWithMargins = True
+    Left = 3
+    Top = 250
+    Width = 348
+    Height = 174
     Cursor = crHandPoint
     Hint = 'Fecha aplica'#231#227'o.'
     Align = alClient
@@ -83,13 +84,14 @@ object FWKPedidos: TFWKPedidos
   end
   object PHost: TPanel
     Left = 0
-    Top = 244
+    Top = 427
     Width = 354
     Height = 35
     Align = alBottom
     Alignment = taLeftJustify
     Caption = '  Host:'
     TabOrder = 3
+    ExplicitTop = 244
     DesignSize = (
       354
       35)
@@ -147,5 +149,28 @@ object FWKPedidos: TFWKPedidos
     ShowHint = True
     TabOrder = 0
     OnClick = BBCadClientesClick
+  end
+  object BBOrdemEntrega: TBitBtn
+    Left = 0
+    Top = 180
+    Width = 354
+    Height = 67
+    Cursor = crHandPoint
+    Hint = 'Acessa Cadastro de Pedidos'
+    Align = alTop
+    Caption = 'Ordens de &Entrega'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ImageIndex = 9
+    Images = DMUtils.ILImagensSystem
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    OnClick = BBOrdemEntregaClick
+    ExplicitTop = 121
   end
 end

@@ -6,7 +6,10 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.Mask, Controller.ItemPedidoController, Interfaces.IItemPedido,
-  Controller.ProdutoController, Interfaces.Visitor, Vcl.Imaging.pngimage;
+  Controller.ProdutoController, Interfaces.Visitor, Vcl.Imaging.pngimage,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TFDadosItensPedido = class(TForm)
@@ -23,10 +26,22 @@ type
     LEIdItemProduto: TLabeledEdit;
     lblTipoVenda: TLabel;
     cbTipoVenda: TComboBox;
-    Label1: TLabel;
+    LFPgto: TLabel;
     cbFormaPgto: TComboBox;
     ITipoCliente: TImage;
     LEPrecoSugerido: TLabeledEdit;
+    LETipoProduto: TLabeledEdit;
+    LECodigoRef: TLabeledEdit;
+    LExemplo: TLabel;
+    LEUnd: TLabeledEdit;
+    FDMemTableProduto: TFDMemTable;
+    FDMemTableProdutoidProdutos: TIntegerField;
+    FDMemTableProdutoCodigoProdutos: TStringField;
+    FDMemTableProdutoDescricaoTipoProduto: TStringField;
+    FDMemTableProdutoDescricaoProdutos: TStringField;
+    FDMemTableProdutoQuantidadeProdutos: TFMTBCDField;
+    FDMemTableProdutoUndProdutos: TStringField;
+    FDMemTableProdutoPrecoVendaProdutos: TFMTBCDField;
     procedure BBSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SBF2Click(Sender: TObject);
@@ -92,7 +107,10 @@ begin
   try
     if FConsultaProdutos.ShowModal = mrOK then
     begin
-      LECodigoProduto.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('CodigoProdutos').AsString;
+      LECodigoProduto.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('idProdutos').AsString;
+      LECodigoRef.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('CodigoProdutos').AsString;
+      LETipoProduto.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('DescricaoTipoProduto').AsString;
+      LEUnd.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('UndProdutos').AsString;
       LEDescricao.Text := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('DescricaoProdutos').AsString;
       pPrice := FConsultaProdutos.DSConslutaProduto.DataSet.FieldByName('PrecoVendaProdutos').AsFloat;
     end;
@@ -163,9 +181,24 @@ var
 begin
   if LECodigoProduto.Text <> EmptyStr then
   begin
+    FProdutoController.CarregarDadosProdutos(
+     FDMemTableProduto,
+     '',
+     LECodigoProduto.Text
+    );
+
+    LECodigoProduto.Text := FDMemTableProduto.FieldByName('idProdutos').AsString;
+    LECodigoRef.Text := FDMemTableProduto.FieldByName('CodigoProdutos').AsString;
+    LETipoProduto.Text := FDMemTableProduto.FieldByName('DescricaoTipoProduto').AsString;
+    LEUnd.Text := FDMemTableProduto.FieldByName('UndProdutos').AsString;
+    LEDescricao.Text := FDMemTableProduto.FieldByName('DescricaoProdutos').AsString;
+
+    {Exemplo usando outro método:
     LEDescricao.Text := FProdutoController.CarregarNomePorId(LECodigoProduto.Text);
+    }
     dPriceVenda := FProdutoController.
                     CarregarPricePorId(LECodigoProduto.Text);
+
     LEPreco.Text := FormatFloat('###,##0.00', dPriceVenda);
     LEPrecoSugerido.Text := FormatFloat('###,##0.00', dPriceVenda);
     MaskEdit(LEQtd, LEPreco, LEValor, LEPrecoSugerido);

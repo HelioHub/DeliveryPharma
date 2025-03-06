@@ -68,6 +68,11 @@ type
     ItensMemTableQuantidadeItensPedido: TFMTBCDField;
     ItensMemTableVlrUnitarioItensPedido: TFMTBCDField;
     ItensMemTableVlrTotalItensPedido: TFMTBCDField;
+    BBOrdens: TBitBtn;
+    RGStatus: TRadioGroup;
+    PedidosMemTableStatus: TStringField;
+    ItensMemTableCodigoProdutos: TStringField;
+    ItensMemTableDescricaoTipoProduto: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BBSairClick(Sender: TObject);
     procedure BBIncluirClick(Sender: TObject);
@@ -89,6 +94,7 @@ type
     procedure BBGraficoClick(Sender: TObject);
     procedure MIGraficoBarraClick(Sender: TObject);
     procedure MIGraficoPizzaClick(Sender: TObject);
+    procedure BBOrdensClick(Sender: TObject);
   private
     { Private declarations }
     FPedidoController: TPedidoController;
@@ -117,7 +123,8 @@ implementation
 
 {$R *.dfm}
 
-uses View.Dados.Pedidos, View.Show.MaisVendido, Utils.DMUtils;
+uses View.Dados.Pedidos, View.Show.MaisVendido, Utils.DMUtils,
+  View.OrdemEntrega;
 
 constructor TFViewPedidos.Create(AOwner: TComponent);
 begin
@@ -143,6 +150,12 @@ end;
 procedure TFViewPedidos.BBIncluirClick(Sender: TObject);
 begin
   pCRUD(acIncluir);
+end;
+
+procedure TFViewPedidos.BBOrdensClick(Sender: TObject);
+begin
+  FViewOrdemEntrega := TFViewOrdemEntrega.Create(Application);
+  FViewOrdemEntrega.ShowModal;
 end;
 
 procedure TFViewPedidos.BBAlterarClick(Sender: TObject);
@@ -352,7 +365,8 @@ begin
     LEFiltroNomeCliente.Text,
     ENR.Text,
     DTPDEIni.Date,
-    DTPDEFin.Date);
+    DTPDEFin.Date,
+    RGStatus.ItemIndex);
 end;
 
 procedure TFViewPedidos.pValorTotaldoPedido;

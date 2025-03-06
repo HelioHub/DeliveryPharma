@@ -35,7 +35,17 @@ uses
   Utils.DMUtils in 'Utils\Utils.DMUtils.pas' {DMUtils: TDataModule},
   View.Clientes in 'View\View.Clientes.pas' {FViewClientes},
   View.Dados.Clientes in 'View\View.Dados.Clientes.pas' {FDadosClientes},
-  Utils.uBrasilAPI in 'Utils\Utils.uBrasilAPI.pas';
+  Utils.uBrasilAPI in 'Utils\Utils.uBrasilAPI.pas',
+  View.OrdemEntrega in 'View\View.OrdemEntrega.pas' {FViewOrdemEntrega},
+  Interfaces.IOrdemEntrega in 'Interfaces\Interfaces.IOrdemEntrega.pas',
+  Model.OrdemEntrega in 'Model\Model.OrdemEntrega.pas',
+  Controller.OrdemEntregaController in 'Controller\Controller.OrdemEntregaController.pas',
+  Model.PedidosEntrega in 'Model\Model.PedidosEntrega.pas',
+  Interfaces.IPedidosEntrega in 'Interfaces\Interfaces.IPedidosEntrega.pas',
+  Controller.PedidosEntregaController in 'Controller\Controller.PedidosEntregaController.pas',
+  Model.Entregador in 'Model\Model.Entregador.pas',
+  Interfaces.IEntregador in 'Interfaces\Interfaces.IEntregador.pas',
+  Controller.EntregadorController in 'Controller\Controller.EntregadorController.pas';
 
 {$R *.res}
 

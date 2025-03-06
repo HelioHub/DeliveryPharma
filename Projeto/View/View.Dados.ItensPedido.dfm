@@ -5,8 +5,8 @@ object FDadosItensPedido: TFDadosItensPedido
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Dados do Item(Produto) do Pedido'
-  ClientHeight = 278
-  ClientWidth = 458
+  ClientHeight = 372
+  ClientWidth = 515
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,16 +21,18 @@ object FDadosItensPedido: TFDadosItensPedido
   TextHeight = 13
   object PRodape: TPanel
     Left = 0
-    Top = 237
-    Width = 458
+    Top = 331
+    Width = 515
     Height = 41
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 237
+    ExplicitWidth = 458
     DesignSize = (
-      458
+      515
       41)
     object BBSair: TBitBtn
-      Left = 372
+      Left = 429
       Top = 6
       Width = 75
       Height = 25
@@ -46,9 +48,10 @@ object FDadosItensPedido: TFDadosItensPedido
       ParentFont = False
       TabOrder = 1
       OnClick = BBSairClick
+      ExplicitLeft = 372
     end
     object BBGravar: TBitBtn
-      Left = 289
+      Left = 346
       Top = 6
       Width = 75
       Height = 25
@@ -64,17 +67,26 @@ object FDadosItensPedido: TFDadosItensPedido
       ParentFont = False
       TabOrder = 0
       OnClick = BBGravarClick
+      ExplicitLeft = 289
     end
   end
   object PDados: TPanel
     Left = 0
     Top = 0
-    Width = 458
-    Height = 237
+    Width = 515
+    Height = 331
     Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 458
+    ExplicitHeight = 237
     object SBF2: TSpeedButton
-      Left = 186
+      Left = 206
       Top = 35
       Width = 113
       Height = 22
@@ -83,25 +95,37 @@ object FDadosItensPedido: TFDadosItensPedido
       OnClick = SBF2Click
     end
     object lblTipoVenda: TLabel
-      Left = 38
-      Top = 118
-      Width = 75
+      Left = 48
+      Top = 207
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       Caption = 'Tipo de  Venda:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
     end
-    object Label1: TLabel
-      Left = 7
-      Top = 145
-      Width = 106
+    object LFPgto: TLabel
+      Left = 9
+      Top = 234
+      Width = 124
       Height = 13
       Alignment = taRightJustify
       Caption = 'Forma de Pagamento:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
     end
     object ITipoCliente: TImage
-      Left = 256
-      Top = 89
-      Width = 197
+      Left = 276
+      Top = 210
+      Width = 215
       Height = 99
       Picture.Data = {
         0954506E67496D61676589504E470D0A1A0A0000000D49484452000000C40000
@@ -150,15 +174,35 @@ object FDadosItensPedido: TFDadosItensPedido
         892AA9945035F00C388918C474059C440C62BA024E2286AA0160C9A36AE0EDFD
         E3C7EBCB6A7FC8891B817012B1DD0D8829304E22B6BBF117A35442696D38C412
         0000000049454E44AE426082}
+      Stretch = True
+    end
+    object LExemplo: TLabel
+      Left = 276
+      Top = 193
+      Width = 215
+      Height = 13
+      Hint = 
+        'O padr'#227'o de design Visitor '#233' um padr'#227'o comportamental que permit' +
+        'e separar um algoritmo de um objeto estrutura em que ele opera.'
+      Alignment = taRightJustify
+      Caption = 'Exemplo de como usar Visitor Pattern:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold, fsItalic]
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
     end
     object LECodigoProduto: TLabeledEdit
-      Left = 119
+      Left = 139
       Top = 35
       Width = 61
       Height = 21
-      EditLabel.Width = 96
+      EditLabel.Width = 70
       EditLabel.Height = 21
-      EditLabel.Caption = ' C'#243'digo do Produto:'
+      EditLabel.Caption = 'Id do Produto:'
       LabelPosition = lpLeft
       NumbersOnly = True
       TabOrder = 1
@@ -166,9 +210,9 @@ object FDadosItensPedido: TFDadosItensPedido
       OnExit = LECodigoProdutoExit
     end
     object LEDescricao: TLabeledEdit
-      Left = 119
-      Top = 62
-      Width = 269
+      Left = 139
+      Top = 115
+      Width = 310
       Height = 21
       EditLabel.Width = 106
       EditLabel.Height = 21
@@ -176,12 +220,12 @@ object FDadosItensPedido: TFDadosItensPedido
       Enabled = False
       LabelPosition = lpLeft
       NumbersOnly = True
-      TabOrder = 3
+      TabOrder = 5
       Text = ''
     end
     object LEQtd: TLabeledEdit
-      Left = 119
-      Top = 89
+      Left = 138
+      Top = 174
       Width = 109
       Height = 21
       Alignment = taRightJustify
@@ -189,14 +233,14 @@ object FDadosItensPedido: TFDadosItensPedido
       EditLabel.Height = 21
       EditLabel.Caption = 'Quantidade:'
       LabelPosition = lpLeft
-      TabOrder = 4
+      TabOrder = 7
       Text = ''
       OnExit = LEQtdExit
       OnKeyPress = LEQtdKeyPress
     end
     object LEPreco: TLabeledEdit
-      Left = 119
-      Top = 169
+      Left = 139
+      Top = 262
       Width = 109
       Height = 21
       Alignment = taRightJustify
@@ -204,14 +248,14 @@ object FDadosItensPedido: TFDadosItensPedido
       EditLabel.Height = 21
       EditLabel.Caption = 'Pre'#231'o de Venda:'
       LabelPosition = lpLeft
-      TabOrder = 7
+      TabOrder = 10
       Text = ''
       OnExit = cbTipoVendaExit
       OnKeyPress = LEQtdKeyPress
     end
     object LEValor: TLabeledEdit
-      Left = 119
-      Top = 196
+      Left = 139
+      Top = 288
       Width = 109
       Height = 21
       Alignment = taRightJustify
@@ -220,11 +264,11 @@ object FDadosItensPedido: TFDadosItensPedido
       EditLabel.Caption = 'Valor Total:'
       Enabled = False
       LabelPosition = lpLeft
-      TabOrder = 8
+      TabOrder = 11
       Text = ''
     end
     object LEIdItemProduto: TLabeledEdit
-      Left = 119
+      Left = 139
       Top = 9
       Width = 61
       Height = 21
@@ -238,12 +282,12 @@ object FDadosItensPedido: TFDadosItensPedido
       Text = ''
     end
     object cbTipoVenda: TComboBox
-      Left = 119
-      Top = 116
+      Left = 139
+      Top = 205
       Width = 109
       Height = 21
       ItemIndex = 0
-      TabOrder = 5
+      TabOrder = 8
       Text = 'Varejo'
       OnExit = cbTipoVendaExit
       Items.Strings = (
@@ -251,12 +295,12 @@ object FDadosItensPedido: TFDadosItensPedido
         'Atacado')
     end
     object cbFormaPgto: TComboBox
-      Left = 119
-      Top = 142
+      Left = 139
+      Top = 231
       Width = 109
       Height = 21
       ItemIndex = 0
-      TabOrder = 6
+      TabOrder = 9
       Text = #192' Vista'
       OnExit = cbTipoVendaExit
       Items.Strings = (
@@ -264,7 +308,7 @@ object FDadosItensPedido: TFDadosItensPedido
         #192' Prazo')
     end
     object LEPrecoSugerido: TLabeledEdit
-      Left = 308
+      Left = 328
       Top = 35
       Width = 121
       Height = 21
@@ -277,6 +321,86 @@ object FDadosItensPedido: TFDadosItensPedido
       Text = ''
       OnExit = cbTipoVendaExit
       OnKeyPress = LEQtdKeyPress
+    end
+    object LETipoProduto: TLabeledEdit
+      Left = 139
+      Top = 88
+      Width = 310
+      Height = 21
+      EditLabel.Width = 80
+      EditLabel.Height = 21
+      EditLabel.Caption = 'Tipo de Produto:'
+      Enabled = False
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 4
+      Text = ''
+    end
+    object LECodigoRef: TLabeledEdit
+      Left = 139
+      Top = 61
+      Width = 61
+      Height = 21
+      EditLabel.Width = 93
+      EditLabel.Height = 21
+      EditLabel.Caption = 'C'#243'digo do Produto:'
+      Enabled = False
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 3
+      Text = ''
+    end
+    object LEUnd: TLabeledEdit
+      Left = 139
+      Top = 142
+      Width = 61
+      Height = 21
+      EditLabel.Width = 99
+      EditLabel.Height = 21
+      EditLabel.Caption = 'Unidade do Produto:'
+      Enabled = False
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 6
+      Text = ''
+    end
+  end
+  object FDMemTableProduto: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 352
+    Top = 137
+    object FDMemTableProdutoidProdutos: TIntegerField
+      FieldName = 'idProdutos'
+    end
+    object FDMemTableProdutoCodigoProdutos: TStringField
+      FieldName = 'CodigoProdutos'
+      Size = 10
+    end
+    object FDMemTableProdutoDescricaoTipoProduto: TStringField
+      FieldName = 'DescricaoTipoProduto'
+      Size = 50
+    end
+    object FDMemTableProdutoDescricaoProdutos: TStringField
+      FieldName = 'DescricaoProdutos'
+      Size = 80
+    end
+    object FDMemTableProdutoQuantidadeProdutos: TFMTBCDField
+      FieldName = 'QuantidadeProdutos'
+      DisplayFormat = '###,##0.00'
+    end
+    object FDMemTableProdutoUndProdutos: TStringField
+      FieldName = 'UndProdutos'
+      Size = 3
+    end
+    object FDMemTableProdutoPrecoVendaProdutos: TFMTBCDField
+      FieldName = 'PrecoVendaProdutos'
+      DisplayFormat = '###,##0.00'
     end
   end
 end

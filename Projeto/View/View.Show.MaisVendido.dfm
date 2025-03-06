@@ -57,7 +57,7 @@ object FViewMaisVendido: TFViewMaisVendido
       item
         Alignment = taCenter
         Expanded = False
-        FieldName = 'CodigoProdutos'
+        FieldName = 'idProdutos'
         Title.Alignment = taCenter
         Title.Caption = 'Item'
         Width = 47
@@ -99,8 +99,8 @@ object FViewMaisVendido: TFViewMaisVendido
     StoreDefs = True
     Left = 328
     Top = 192
-    object ItensMemTableCodigoProdutos: TIntegerField
-      FieldName = 'CodigoProdutos'
+    object ItensMemTableidProdutos: TIntegerField
+      FieldName = 'idProdutos'
     end
     object ItensMemTableDescricaoProdutos: TStringField
       FieldName = 'DescricaoProdutos'
