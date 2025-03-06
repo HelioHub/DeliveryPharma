@@ -45,7 +45,8 @@ uses
   Controller.PedidosEntregaController in 'Controller\Controller.PedidosEntregaController.pas',
   Model.Entregador in 'Model\Model.Entregador.pas',
   Interfaces.IEntregador in 'Interfaces\Interfaces.IEntregador.pas',
-  Controller.EntregadorController in 'Controller\Controller.EntregadorController.pas';
+  Controller.EntregadorController in 'Controller\Controller.EntregadorController.pas',
+  View.Dados.PedidosEnrtega in 'View\View.Dados.PedidosEnrtega.pas' {FDadosPedidosEntrega};
 
 {$R *.res}
 

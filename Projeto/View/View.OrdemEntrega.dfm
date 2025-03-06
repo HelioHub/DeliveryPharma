@@ -247,7 +247,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Height = 30
       Hint = 'Rota de Entrega Considerando Prioridade do Produto.'
       Cancel = True
-      Caption = 'Rota de Entrega'
+      Caption = 'Sa'#237'da da Entrega'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11

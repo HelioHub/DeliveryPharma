@@ -211,6 +211,10 @@
         <DCCReference Include="Model\Model.Entregador.pas"/>
         <DCCReference Include="Interfaces\Interfaces.IEntregador.pas"/>
         <DCCReference Include="Controller\Controller.EntregadorController.pas"/>
+        <DCCReference Include="View\View.Dados.PedidosEnrtega.pas">
+            <Form>FDadosPedidosEntrega</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
