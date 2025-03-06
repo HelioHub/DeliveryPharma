@@ -1,0 +1,110 @@
+oK E esse SQL do mysql para firebird 2.5:
+SELECT LAST_INSERT_ID() AS LastID
+No Firebird 2.5, não existe uma função direta equivalente ao LAST_INSERT_ID() do MySQL. No entanto, você pode obter o último ID inserido usando o conceito de generators (ou sequences) e a função GEN_ID.
+
+Aqui está como você pode adaptar o código:
+
+1. Entendendo o LAST_INSERT_ID() do MySQL:
+No MySQL, a função LAST_INSERT_ID() retorna o último valor gerado para uma coluna AUTO_INCREMENT em uma tabela.
+
+Exemplo no MySQL:
+
+sql
+Copy
+INSERT INTO Clientes (NomeClientes) VALUES ('João Silva');
+SELECT LAST_INSERT_ID() AS LastID;
+2. Equivalente no Firebird 2.5:
+No Firebird, você precisa usar um generator (ou sequence) para gerar valores únicos para uma coluna. Após a inserção, você pode recuperar o valor atual do generator usando a função GEN_ID.
+
+Passos:
+Crie um generator:
+Um generator é um objeto que gera valores sequenciais. Você pode criar um generator para cada tabela que precisa de um valor autoincrementável.
+
+Exemplo:
+
+sql
+Copy
+CREATE GENERATOR GEN_Clientes_ID;
+Use o generator na tabela:
+Ao inserir um registro, use o generator para gerar o próximo valor para a coluna de chave primária.
+
+Exemplo:
+
+sql
+Copy
+INSERT INTO Clientes (CodigoClientes, NomeClientes)
+VALUES (GEN_ID(GEN_Clientes_ID, 1), 'João Silva');
+Recupere o último valor gerado:
+Use a função GEN_ID com o segundo parâmetro 0 para obter o valor atual do generator sem incrementá-lo.
+
+Exemplo:
+
+sql
+Copy
+SELECT GEN_ID(GEN_Clientes_ID, 0) AS LastID FROM RDB$DATABASE;
+3. Exemplo completo no Firebird 2.5:
+Aqui está como você pode adaptar o código MySQL para o Firebird:
+
+Código MySQL:
+sql
+Copy
+INSERT INTO Clientes (NomeClientes) VALUES ('João Silva');
+SELECT LAST_INSERT_ID() AS LastID;
+Código Firebird 2.5:
+sql
+Copy
+-- Inserir um novo registro
+INSERT INTO Clientes (CodigoClientes, NomeClientes)
+VALUES (GEN_ID(GEN_Clientes_ID, 1), 'João Silva');
+
+-- Recuperar o último ID gerado
+SELECT GEN_ID(GEN_Clientes_ID, 0) AS LastID FROM RDB$DATABASE;
+4. Explicação do GEN_ID:
+GEN_ID(generator, increment):
+
+generator: Nome do generator (ex: GEN_Clientes_ID).
+
+increment: Valor a ser adicionado ao generator. Use 1 para incrementar e 0 para obter o valor atual sem incrementar.
+
+5. Como criar um generator:
+Se você ainda não criou um generator para a tabela Clientes, pode fazer isso com o seguinte comando:
+
+sql
+Copy
+CREATE GENERATOR GEN_Clientes_ID;
+6. Exemplo no Delphi com FireDAC:
+Se você estiver usando FireDAC no Delphi, aqui está um exemplo de como inserir um registro e recuperar o último ID:
+
+delphi
+Copy
+var
+  FDQuery1, FDQuery2: TFDQuery;
+  LastID: Integer;
+begin
+  FDQuery1 := TFDQuery.Create(nil);
+  FDQuery2 := TFDQuery.Create(nil);
+  try
+    FDQuery1.Connection := FConnection; // Sua conexão Firebird
+    FDQuery2.Connection := FConnection;
+
+    // Insere um novo registro
+    FDQuery1.SQL.Text := 'INSERT INTO Clientes (CodigoClientes, NomeClientes) ' +
+                         'VALUES (GEN_ID(GEN_Clientes_ID, 1), :Nome)';
+    FDQuery1.ParamByName('Nome').AsString := 'João Silva';
+    FDQuery1.ExecSQL;
+
+    // Recupera o último ID gerado
+    FDQuery2.SQL.Text := 'SELECT GEN_ID(GEN_Clientes_ID, 0) AS LastID FROM RDB$DATABASE';
+    FDQuery2.Open;
+    LastID := FDQuery2.FieldByName('LastID').AsInteger;
+
+    ShowMessage('Último ID inserido: ' + IntToStr(LastID));
+  finally
+    FDQuery1.Free;
+    FDQuery2.Free;
+  end;
+end;
+7. Dicas importantes:
+Generators são globais: Um generator é compartilhado entre todas as conexões e transações. Certifique-se de que ele seja usado corretamente para evitar conflitos.
+
+Crie generators para cada tabela: É uma boa prática criar um generator específico para cada tabela que precisa de uma coluna autoincrementável.
