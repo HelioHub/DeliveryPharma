@@ -70,6 +70,7 @@ type
     PedidosDispMemTableMaiorPrioridade: TIntegerField;
     Label2: TLabel;
     PedidosEntregaMemTablePrioridade: TIntegerField;
+    PedidosEntregaMemTableOBSPedidosEntrega: TStringField;
     procedure BBGravarClick(Sender: TObject);
     procedure BBSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -84,8 +85,6 @@ type
     FPedidosOrdemController: TPedidosEntregaController;
     FEntregadorController: TEntregadorController;
 
-    procedure TratarDelete;
-    procedure pCRUD(pAcao: TAcao);
     procedure pAtualizaPedidosOrdem;
     procedure pAtualizaOrdem;
   public
@@ -143,25 +142,42 @@ procedure TFDadosPedidosEntrega.BBIncClick(Sender: TObject);
 var
   PedidosEntrega : IPedidosEntrega;
 begin
+  if PedidosEntregaMemTable.Locate('PedidoPedidosEntrega', DSPedidosDisp.DataSet.FieldByName('NumeroPedidos').AsInteger, []) then
+  begin
+    Beep;
+    ShowMessage('Pedido já existente!!');
+    exit;
+  end;
+  if PedidosEntregaMemTable.RecordCount >= cFive then
+  begin
+    Beep;
+    ShowMessage('Atenção!! Somente 5 Pedidos por Ordem de Entrega.');
+    exit;
+  end;
+
   PedidosEntrega := FPedidosOrdemController.GetOrdemEntrega;
 
   PedidosEntrega.IdPedidosEntrega := 0;
   PedidosEntrega.PedidoPedidosEntrega := DSPedidosDisp.DataSet.FieldByName('NumeroPedidos').AsInteger;
   PedidosEntrega.OrdemEntregaPedidosEntrega := StrToIntDef(LEOrdemEntrega.Text, 0);
   PedidosEntrega.StatusPedidosEntrega := 0;
-  PedidosEntrega.OBSPedidosEntrega := 'Observações sobre o Pedido:'+cEOL+
-                                      '---------------------------'+cEOL+
-                                      'Prioridade do Pedido número '+DSPedidosDisp.DataSet.FieldByName('MaiorPrioridade').AsString+cEOL+
-                                      'Requer Cuidados de Arzamento: '+DSPedidosDisp.DataSet.FieldByName('Cuidados').AsString+cEOL+
-                                      'Há Produto com Validade Vencido: '+DSPedidosDisp.DataSet.FieldByName('ValidadeVencida').AsString;
+  PedidosEntrega.OBSPedidosEntrega := '<< Observações sobre o Pedido: >>'+cEOL+
+                                      ' '+cEOL+
+                                      'Prioridade do Pedido Número '+DSPedidosDisp.DataSet.FieldByName('MaiorPrioridade').AsString+cEOL+
+                                      'Requer Cuidados de Armazenamento: '+DSPedidosDisp.DataSet.FieldByName('Cuidados').AsString+cEOL+
+                                      'Produto(s) com Validade vencida: '+DSPedidosDisp.DataSet.FieldByName('ValidadeVencida').AsString;
 
   FPedidosOrdemController.SalvarPedidosEntrega(PedidosEntrega);
+  pAtualizaPedidosOrdem;
 end;
 
 procedure TFDadosPedidosEntrega.BBExcClick(Sender: TObject);
 begin
   if Not DSPedidosEntrega.DataSet.FieldByName('idPedidosEntrega').IsNull then
+  begin
     FPedidosOrdemController.ExcluirPedidosEntrega(DSPedidosEntrega.DataSet.FieldByName('idPedidosEntrega').AsInteger);
+    pAtualizaPedidosOrdem;
+  end;
 end;
 
 procedure TFDadosPedidosEntrega.BBSairClick(Sender: TObject);
@@ -204,14 +220,14 @@ end;
 procedure TFDadosPedidosEntrega.pAtualizaPedidosOrdem;
 begin
   BBInc.Enabled := False;
-  BBInc.Enabled := False;
+  BBExc.Enabled := False;
   if LEOrdemEntrega.Text <> '' then
   begin
     FPedidosOrdemController.CarregarDadosPedidosOrdem(PedidosEntregaMemTable, LEOrdemEntrega.Text);
-    if LEStatus.Text <> cStatusPendenteOrdemEntrega then
+    if LEStatus.Text = cStatusPendenteOrdemEntrega then
     begin
       BBInc.Enabled := True;
-      BBInc.Enabled := True;
+      BBExc.Enabled := True;
     end;
   end;
 end;
@@ -221,16 +237,6 @@ begin
   FEntregadorController.CarregarDadosEntregadors(EntregadorMemTable, '', '');
   FPedidosOrdemController.CarregarDadosRotas(PedidosDispMemTable, '');
   pAtualizaPedidosOrdem;
-end;
-
-procedure TFDadosPedidosEntrega.pCRUD(pAcao: TAcao);
-begin
-
-end;
-
-procedure TFDadosPedidosEntrega.TratarDelete;
-begin
-
 end;
 
 end.

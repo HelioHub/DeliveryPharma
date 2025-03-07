@@ -48,6 +48,7 @@ type
     procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
     procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
       pidOrdem: String);
+    function PedidoEmOrdem(const pPedido: String) : Integer;
 end;
 
 implementation
@@ -197,7 +198,6 @@ begin
       raise Exception.Create('Erro ao carregar dados: ' + E.Message);
     end;
   end;
-
 end;
 
 
@@ -263,6 +263,23 @@ end;
 function TPedidosEntrega.GetStatusPedidosEntrega: SmallInt;
 begin
   Result := FStatusPedidosEntrega;
+end;
+
+function TPedidosEntrega.PedidoEmOrdem(const pPedido: String) : Integer;
+begin
+  try
+    // Prepara a query para selecionar os dados
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add(' SELECT OrdemEntregaPedidosEntrega FROM PedidosEntrega WHERE  PedidoPedidosEntrega = '+pPedido);
+    FQuery.Open;
+
+    Result := FQuery.FieldByName('OrdemEntregaPedidosEntrega').AsInteger;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Erro ao carregar dados: ' + E.Message);
+    end;
+  end;
 end;
 
 procedure TPedidosEntrega.SetOBSPedidosEntrega(const Value: string);

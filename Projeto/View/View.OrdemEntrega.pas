@@ -10,7 +10,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.DBCtrls, Utils.Consts, Controller.OrdemEntregaController,
-  Controller.PedidosEntregaController;
+  Controller.PedidosEntregaController, Winapi.ShellAPI;
 
 type
   TFViewOrdemEntrega = class(TForm)
@@ -72,6 +72,7 @@ type
     procedure SBClearOrdemClick(Sender: TObject);
     procedure SBClearNomeClienteClick(Sender: TObject);
     procedure DSViewOrdensDataChange(Sender: TObject; Field: TField);
+    procedure BBOrdensClick(Sender: TObject);
   private
     { Private declarations }
     FOrdemEntregaController: TOrdemEntregaController;
@@ -115,6 +116,34 @@ end;
 procedure TFViewOrdemEntrega.BBIncluirClick(Sender: TObject);
 begin
   pCRUD(acIncluir);
+end;
+
+procedure TFViewOrdemEntrega.BBOrdensClick(Sender: TObject);
+var
+  HTML: string;
+  FileName: string;
+begin
+  if (DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').IsNull) then
+  begin
+    beep;
+    ShowMessage('Sem Ordem de Entrega Selecionada!');
+    Exit;
+  end;
+
+  HTML := FOrdemEntregaController.GerarOrdemEntregaHTML(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString);
+
+  // Salva o HTML em um arquivo temporário
+  FileName := ExtractFilePath(Application.ExeName) + 'relatorio_pedido.html';
+  with TStringList.Create do
+  try
+    Text := HTML;
+    SaveToFile(FileName);
+  finally
+    Free;
+  end;
+
+  // Abre o arquivo no navegador padrão
+  ShellExecute(0, 'open', PChar(FileName), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TFViewOrdemEntrega.BBSairClick(Sender: TObject);

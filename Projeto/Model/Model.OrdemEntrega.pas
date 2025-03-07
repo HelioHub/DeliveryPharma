@@ -55,6 +55,8 @@ type
 
     function Salvar: Boolean; // Implementação do método Salvar
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
+    function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
+
     procedure CarregarDados(const AFDMemTable: TFDMemTable;
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
       pDtIni, pDtFin : TDate; pStatus : Integer); // Implementação do método CarregarDados
@@ -67,7 +69,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.MySQL,
   FireDAC.Phys.MySQLDef, System.SysUtils, Vcl.Dialogs,
-  Utils.ErrorLogger, Utils.Consts;
+  Utils.ErrorLogger, Utils.Consts, System.Classes;
 
 { TOrdemEntrega }
 
@@ -330,5 +332,148 @@ begin
     end;
   end;
 end;
+
+function TOrdemEntrega.GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
+var
+  HTML: TStringList;
+  PedidoAtual: Integer;
+begin
+  HTML := TStringList.Create;
+  try
+    // Executa a consulta SQL
+    FQuery.SQL.Text :=
+        'SELECT ' +
+      '  oe.idOrdemEntrega, ' +
+      '  oe.EmissaoOrdemEntrega, ' +
+      '  e.NomeEntregador, ' +
+      '  pe.PedidoPedidosEntrega, ' +
+      '  c.NomeClientes, ' +
+      '  c.RuaClientes, ' +
+      '  c.NumeroRuaClientes, ' +
+      '  c.BairroClientes, ' +
+      '  c.CidadeClientes, ' +
+      '  c.UFClientes, ' +
+      '  c.CEPClientes, ' +
+      '  c.LongitudeClientes, ' +
+      '  c.LatitudeClientes, ' +
+      '  p.DescricaoProdutos, ' +
+      '  ip.QuantidadeItensPedido, ' +
+      '  tp.PrioridadeTipoProduto, ' +
+      '  p.CuidadosArmProdutos, ' +
+      '  CASE WHEN p.DataValidadeProdutos < CURRENT_DATE THEN ''SIM'' ELSE ''NÃO'' END AS ValidadeVencida ' +
+      'FROM PedidosEntrega pe ' +
+      'JOIN OrdemEntrega oe ON oe.idOrdemEntrega = pe.OrdemEntregaPedidosEntrega ' +
+      'JOIN Entregador e ON e.idEntregador = oe.EntregadorOrdenEntrega ' +
+      'JOIN Pedidos pd ON pd.NumeroPedidos = pe.PedidoPedidosEntrega ' +
+      'JOIN Clientes c ON c.CodigoClientes = pd.ClientePedidos ' +
+      'JOIN ItensPedido ip ON ip.PedidoItensPedido = pd.NumeroPedidos ' +
+      'JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido ' +
+      'JOIN TipoProduto tp ON tp.idTipoProduto = p.TipoProdutoProdutos ' +
+      'WHERE oe.idOrdemEntrega = :OrdemEntregaID ' +
+      'ORDER BY pe.PedidoPedidosEntrega, p.DescricaoProdutos';
+    FQuery.ParamByName('OrdemEntregaID').AsString := pOrdemEntrega;
+    FQuery.Open;
+
+    // Cabeçalho do HTML
+    HTML.Add('<html>');
+    HTML.Add('<head>');
+    HTML.Add('<title>Ordem de Entrega</title>');
+    HTML.Add('<style>');
+    HTML.Add('  body { font-family: Arial, sans-serif; margin: 20px; }');
+    HTML.Add('  h1 { color: #333; }');
+    HTML.Add('  h2 { color: #555; }');
+    HTML.Add('  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }');
+    HTML.Add('  th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }');
+    HTML.Add('  th { background-color: #f2f2f2; }');
+    HTML.Add('  .endereco { margin-bottom: 20px; }');
+    HTML.Add('  .assinatura { margin-top: 40px; display: flex; justify-content: space-between; }');
+    HTML.Add('</style>');
+    HTML.Add('</head>');
+    HTML.Add('<body>');
+
+    // Título da Ordem de Entrega
+    HTML.Add('<h1>ORDEM DE ENTREGA ' + FQuery.FieldByName('idOrdemEntrega').AsString + '</h1>');
+    HTML.Add('<p>Data de Emissão: ' + FormatDateTime('dd/mm/yyyy hh:nn', FQuery.FieldByName('EmissaoOrdemEntrega').AsDateTime) + '</p>');
+    HTML.Add('<h2>Entregador: ' + FQuery.FieldByName('NomeEntregador').AsString + '</h2>');
+    HTML.Add('<hr>');
+
+    // Loop pelos pedidos
+    PedidoAtual := -1; // Inicializa com um valor inválido
+    while not FQuery.Eof do
+    begin
+      // Verifica se é um novo pedido
+      if FQuery.FieldByName('PedidoPedidosEntrega').AsInteger <> PedidoAtual then
+      begin
+        // Fecha a tabela do pedido anterior (se houver)
+        if PedidoAtual <> -1 then
+        begin
+          HTML.Add('</table>');
+          HTML.Add('</div>');
+          HTML.Add('<hr>');
+        end;
+
+        // Inicia um novo pedido
+        PedidoAtual := FQuery.FieldByName('PedidoPedidosEntrega').AsInteger;
+        HTML.Add('<div class="pedido">');
+        HTML.Add('<h3>Pedido: ' + FQuery.FieldByName('PedidoPedidosEntrega').AsString + '</h3>');
+        HTML.Add('<div class="endereco">');
+        HTML.Add('<p><strong>Cliente:</strong> ' + FQuery.FieldByName('NomeClientes').AsString + '</p>');
+        HTML.Add('<p><strong>Endereço:</strong> ' +
+          FQuery.FieldByName('RuaClientes').AsString + ', ' +
+          FQuery.FieldByName('NumeroRuaClientes').AsString + ' - ' +
+          FQuery.FieldByName('BairroClientes').AsString + ', ' +
+          FQuery.FieldByName('CidadeClientes').AsString + ' - ' +
+          FQuery.FieldByName('UFClientes').AsString + ', ' +
+          FQuery.FieldByName('CEPClientes').AsString + '</p>');
+        HTML.Add('<p><strong>Coordenadas:</strong> Longitude: ' +
+          FQuery.FieldByName('LongitudeClientes').AsString + ', Latitude: ' +
+          FQuery.FieldByName('LatitudeClientes').AsString + '</p>');
+        HTML.Add('</div>');
+
+        // Inicia a tabela de produtos
+        HTML.Add('<h4>Produtos:</h4>');
+        HTML.Add('<table>');
+        HTML.Add('<tr><th>Produto</th><th>Quantidade</th><th>Prioridade</th><th>Cuidados</th><th>Validade Vencida</th></tr>');
+      end;
+
+      // Adiciona os produtos do pedido atual
+      HTML.Add('<tr>');
+      HTML.Add('<td>' + FQuery.FieldByName('DescricaoProdutos').AsString + '</td>');
+      HTML.Add('<td>' + FQuery.FieldByName('QuantidadeItensPedido').AsString + '</td>');
+      HTML.Add('<td>' + FQuery.FieldByName('PrioridadeTipoProduto').AsString + '</td>');
+      HTML.Add('<td>' + FQuery.FieldByName('CuidadosArmProdutos').AsString + '</td>');
+      HTML.Add('<td>' + FQuery.FieldByName('ValidadeVencida').AsString + '</td>');
+      HTML.Add('</tr>');
+
+      FQuery.Next;
+    end;
+
+    // Fecha o último pedido
+    if PedidoAtual <> -1 then
+    begin
+      HTML.Add('</table>');
+      HTML.Add('</div>');
+      HTML.Add('<hr>');
+    end;
+
+    // Assinaturas
+    HTML.Add('<div class="assinatura">');
+    HTML.Add('<div><strong>Responsável pela Ordem:_________________________________________</strong></div>');
+    HTML.Add('</div>');
+    HTML.Add('<div class="assinatura">');
+    HTML.Add('<div><strong>Entregador:_________________________________________</strong></div>');
+    HTML.Add('</div>');
+
+    // Fecha o HTML
+    HTML.Add('</body>');
+    HTML.Add('</html>');
+    Result := HTML.Text;
+
+  finally
+    HTML.Free;
+  end;
+
+end;
+
 
 end.

@@ -19,6 +19,7 @@ type
     procedure CarregarDadosOrdemEntregas(const AFDMemTable: TFDMemTable;
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
       pDtIni, pDtFin : TDate; pStatus : Integer);
+    function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
   end;
 
 implementation
@@ -36,6 +37,12 @@ destructor TOrdemEntregaController.Destroy;
 begin
   FOrdemEntrega := nil;
   inherited;
+end;
+
+function TOrdemEntregaController.GerarOrdemEntregaHTML(
+  const pOrdemEntrega: String): string;
+begin
+  result := FOrdemEntrega.GerarOrdemEntregaHTML(pOrdemEntrega);
 end;
 
 function TOrdemEntregaController.GetOrdemEntrega: IOrdemEntrega;

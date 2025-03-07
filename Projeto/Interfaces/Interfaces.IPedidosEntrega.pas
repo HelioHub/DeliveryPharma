@@ -37,6 +37,7 @@ type
     procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
     procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
       pidOrdem: String);
+    function PedidoEmOrdem(const pPedido: String) : Integer;
   end;
 
 implementation

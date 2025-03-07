@@ -45,6 +45,7 @@ type
     procedure CarregarDados(const AFDMemTable: TFDMemTable;
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
       pDtIni, pDtFin : TDate; pStatus : Integer);
+    function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
   end;
 
 implementation

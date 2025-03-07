@@ -4,7 +4,7 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Dados Pedidos da Entrega'
-  ClientHeight = 607
+  ClientHeight = 662
   ClientWidth = 942
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,16 +17,16 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
   TextHeight = 13
   object PPedidosDisponivel: TPanel
     Left = 0
-    Top = 235
+    Top = 238
     Width = 942
-    Height = 142
+    Height = 163
     Align = alBottom
     TabOrder = 3
     object DBGView: TDBGrid
       Left = 1
       Top = 1
       Width = 940
-      Height = 140
+      Height = 161
       Hint = 'Selecione o Pedido dispon'#237'vel para Incluir na Rota...'
       Align = alClient
       Color = 14286847
@@ -120,7 +120,7 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
   end
   object PLabelPedidoDisponivel: TPanel
     Left = 0
-    Top = 217
+    Top = 220
     Width = 942
     Height = 18
     Align = alBottom
@@ -135,6 +135,7 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 217
     object Label1: TLabel
       Left = 366
       Top = 2
@@ -155,11 +156,12 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     Left = 0
     Top = 0
     Width = 942
-    Height = 186
+    Height = 189
     Align = alClient
     TabOrder = 0
     ExplicitLeft = -1
     ExplicitTop = -4
+    ExplicitHeight = 186
     object LDT: TLabel
       Left = 44
       Top = 44
@@ -293,9 +295,9 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
   end
   object POpcoes: TPanel
     Left = 0
-    Top = 377
+    Top = 401
     Width = 942
-    Height = 230
+    Height = 261
     Align = alBottom
     Alignment = taLeftJustify
     Caption = ' Pedidos da Rota:'
@@ -307,10 +309,9 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     ParentBackground = False
     ParentFont = False
     TabOrder = 4
-    ExplicitTop = 382
     DesignSize = (
       942
-      230)
+      261)
     object L5Pedidos: TLabel
       Left = 360
       Top = 8
@@ -328,7 +329,7 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     end
     object Label2: TLabel
       Left = 8
-      Top = 9
+      Top = 10
       Width = 99
       Height = 15
       Caption = 'Pedido(s) da Rota:'
@@ -341,7 +342,7 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     end
     object BBInc: TBitBtn
       Left = 123
-      Top = 5
+      Top = 7
       Width = 106
       Height = 23
       Anchors = [akRight]
@@ -355,10 +356,11 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       ParentFont = False
       TabOrder = 0
       OnClick = BBIncClick
+      ExplicitTop = 5
     end
     object BBExc: TBitBtn
       Left = 239
-      Top = 5
+      Top = 7
       Width = 106
       Height = 23
       Anchors = [akRight]
@@ -372,12 +374,13 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       ParentFont = False
       TabOrder = 1
       OnClick = BBExcClick
+      ExplicitTop = 5
     end
     object DBGPedidosEntrega: TDBGrid
       Left = 1
-      Top = 31
+      Top = 36
       Width = 940
-      Height = 132
+      Height = 127
       Hint = 'Selecione o Pedido para Excluir da Rota...'
       Align = alBottom
       Color = 14013951
@@ -491,9 +494,12 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
           Visible = True
         end
         item
-          Color = clSnow
+          Alignment = taCenter
+          Color = 8421631
           Expanded = False
           FieldName = 'Prioridade'
+          Title.Alignment = taCenter
+          Title.Caption = '<< Prioridade >>'
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWindowText
           Title.Font.Height = -11
@@ -523,24 +529,28 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       Left = 1
       Top = 181
       Width = 940
-      Height = 48
+      Height = 79
       Align = alBottom
       Color = 8454143
+      DataField = 'OBSPedidosEntrega'
+      DataSource = DSPedidosEntrega
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
       TabOrder = 4
+      ExplicitTop = 182
     end
   end
   object PRodape: TPanel
     Left = 0
-    Top = 186
+    Top = 189
     Width = 942
     Height = 31
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 186
     DesignSize = (
       942
       31)
@@ -704,6 +714,10 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     end
     object PedidosEntregaMemTablePrioridade: TIntegerField
       FieldName = 'Prioridade'
+    end
+    object PedidosEntregaMemTableOBSPedidosEntrega: TStringField
+      FieldName = 'OBSPedidosEntrega'
+      Size = 1000
     end
   end
   object EntregadorMemTable: TFDMemTable

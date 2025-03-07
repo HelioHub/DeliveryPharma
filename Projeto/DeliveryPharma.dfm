@@ -79,7 +79,7 @@ object FDeliveryPharma: TFDeliveryPharma
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
+    TabOrder = 3
     OnClick = BBFecharClick
   end
   object PHost: TPanel
@@ -90,7 +90,7 @@ object FDeliveryPharma: TFDeliveryPharma
     Align = alBottom
     Alignment = taLeftJustify
     Caption = '  Host:'
-    TabOrder = 3
+    TabOrder = 4
     DesignSize = (
       354
       35)
@@ -168,7 +168,7 @@ object FDeliveryPharma: TFDeliveryPharma
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
+    TabOrder = 2
     OnClick = BBOrdemEntregaClick
   end
 end

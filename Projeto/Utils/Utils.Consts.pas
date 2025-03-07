@@ -19,6 +19,7 @@ const
   cZero = 0;
   cTwo = 2;
   cFour = 4;
+  cFive = 5;
   cStatusPendenteOrdemEntrega = 'Pendente';
 
 implementation
