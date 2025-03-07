@@ -17,9 +17,9 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 	• Aplicação Clean Code;
 	• Orientação a objetos;
 	• Padrões de projeto;
-	• Garantir integridade do dados;
+	• Integridade do dados e Controle de transação;
 	• Padrão MVC;
-	• Camada de persistência Firedac.
+	• Camada de persistência Framework Firedac.
 
 ## Tecnologia 
 
@@ -319,7 +319,23 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## DUMP do Banco de Dados FireBird 2.5
 
-   Encontra-se na pasta C:\<PROJETO>\DUMP
+   Encontra-se na pasta C:\<PROJETO>\DUMP\backupDeliveryPharma.fbk gerado pelo Utilitário GBAK do Banco.
+
+
+## Telas Feitas 
+
+	###Cadastro de Clientes (com Filtros)
+	
+	###Cadastro e Acompanhamento de Pedidos com Relatório e Gráficos  (com Filtros)
+	
+	###Cadastro e Acompanhamento de Ordem de Entrega e Emissão da Ordem para o Entregador (com Filtros)
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadPedidos.png)
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadOrdemEntrega.png)
+
+## Feito Ordem de Entrega dos Pedidos
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/OrdemEntrega.png)
 
 ## Feito gráficos na Aplicação em HTML/CSS/JS do Pedido
 
@@ -328,7 +344,6 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Grafico2.png)
 
 	De Pizza
-![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza1.png)
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza2.png)
 
 
