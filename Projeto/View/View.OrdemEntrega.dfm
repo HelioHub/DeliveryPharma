@@ -447,8 +447,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
         'Em Andamento'
         'Entregue Total'
         'Entregue '
-        'Todos'
-        '')
+        'Todos')
       TabOrder = 5
     end
   end

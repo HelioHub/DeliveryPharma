@@ -11,7 +11,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ![## Diagrama de Entidade e Relacionamento](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/EERDiagram.png)
 
-## Arquitetura do Sistema 
+## Conceitos Utilizados
 
 	• Aplicação Client/Server;
 	• Aplicação Clean Code;
@@ -26,7 +26,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 	Embarcadero® Delphi Community Edition Version 29.0.51961.7529 
 	Copyright © 2024 Embarcadero Technologies, Inc. All Rights Reserved.
 
-## PW DB FireBird e IBExpert
+## FireBird e IBExpert
 
 	Firebird-2.5.9.27139_0_Win32.exe
 	https://www.firebirdsql.org/en/firebird-2-5/
@@ -326,8 +326,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
    Encontra-se na pasta C:\<PROJETO>\DUMP\backupDeliveryPharma.fbk gerado pelo Utilitário GBAK do Banco.
 
-
-## Telas Feitas 
+## Telas do Sistemas
 
 	Cadastro de Clientes (com Filtros)
 	
@@ -372,7 +371,10 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/VisitorPattern.png)	
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/TipoCliente.png)	
 
+## Vídeo monstrando o Funcionando Operacional do Sistema Delivery Pharma
 	
-
+	..\imagens\GravacaoSistemaDeliveryPharmaFuncionando.mp4
+	
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GravacaoSistemaDeliveryPharmaFuncionando.mp4)	
 
 
