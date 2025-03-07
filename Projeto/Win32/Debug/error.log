@@ -9,3 +9,6 @@ SQL error code = -206
 Column unknown
 IDITEMPEDIDO
 At line 1, column 26
+07/03/2025 02:15:27 - Erro: EIBNativeException - [FireDAC][Phys][FB]Dynamic SQL Error
+SQL error code = -303
+conversion error from string ""

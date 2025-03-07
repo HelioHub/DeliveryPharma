@@ -31,7 +31,6 @@ type
 
     procedure SetOBSPedidosEntrega(const Value: string);
     function GetOBSPedidosEntrega: string;
-
   public
     constructor Create;
     destructor Destroy; override;
@@ -46,6 +45,9 @@ type
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
 
     procedure CarregarDados(const AFDMemTable: TFDMemTable; pOrdemEntrega: String); // Implementação do método CarregarDados
+    procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
+    procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
+      pidOrdem: String);
 end;
 
 implementation
@@ -57,6 +59,147 @@ uses
   FireDAC.Phys.MySQLDef, System.SysUtils, System.Classes, Vcl.Dialogs, Utils.ErrorLogger;
 
 { TPedidosEntrega }
+
+
+procedure TPedidosEntrega.CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
+  pidOrdem: String);
+begin
+  try
+    // Prepara a query para selecionar os dados
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('  SELECT c.idPedidosEntrega, '+
+    '      c.PedidoPedidosEntrega, '+
+    '      c.OrdemEntregaPedidosEntrega, '+
+    '      c.OBSPedidosEntrega, '+
+    '      a.NumeroPedidos, '+
+    '      b.CodigoClientes, '+
+    '      b.NomeClientes, '+
+    '      b.RuaClientes, '+
+    '      b.CEPClientes, '+
+    '      b.NumeroRuaClientes, '+
+    '      b.BairroClientes, '+
+    '      a.DataEmissaoPedidos, '+
+    '      a.ValorTotalPedidos, '+
+    '      CASE                  '+
+    '        WHEN a.StatusPedidos = 0 THEN '+QuotedStr('Em Aberto')+
+    '        WHEN a.StatusPedidos = 1 THEN '+QuotedStr('Fechado')+
+    '        ELSE '+QuotedStr('Desconhecido')+
+    '      END AS Status, '+
+    '      COALESCE( '+
+    '          (SELECT MIN(tp.PrioridadeTipoProduto) '+
+    '          FROM ItensPedido ip '+
+    '          JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '          JOIN TipoProduto tp ON tp.idTipoProduto = p.TipoProdutoProdutos '+
+    '          WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '      ), 9) AS Prioridade, '+ //Retorna a maior prioridade (1 é a maior, 9 é a menor)
+    '      CASE '+
+    '          WHEN EXISTS ( '+
+    '              SELECT 1 '+
+    '              FROM ItensPedido ip '+
+    '              JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '              WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '                AND p.CuidadosArmProdutos IS NOT NULL '+
+    '                AND p.CuidadosArmProdutos <> '+QuotedStr('')+
+    '          ) THEN '+QuotedStr('SIM')+' '+
+    '          ELSE '+QuotedStr('NÃO')+' '+
+    '      END AS Cuidados, '+ //Verifica se há produtos com cuidados especiais
+    '      CASE '+
+    '          WHEN EXISTS ( '+
+    '              SELECT 1 '+
+    '              FROM ItensPedido ip '+
+    '              JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '              WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '                AND p.DataValidadeProdutos < CURRENT_DATE '+
+    '          ) THEN '+QuotedStr('SIM')+' '+
+    '          ELSE '+QuotedStr('NÃO')+' '+
+    '      END AS ValidadeVencida '+ //Verifica se há produtos com validade vencida
+    '  FROM Pedidos a '+
+    '  JOIN Clientes b ON b.CodigoClientes = a.ClientePedidos '+
+    '  JOIN PedidosEntrega c ON c.PedidoPedidosEntrega = a.NumeroPedidos '+
+    '  WHERE a.StatusPedidos = 0 '); //Filtra apenas pedidos em aberto
+    if not pidOrdem.IsEmpty then
+      FQuery.SQL.Add(' AND c.OrdemEntregaPedidosEntrega = '+pidOrdem);
+    FQuery.SQL.Add(' ORDER BY Prioridade, a.DataEmissaoPedidos ');
+    FQuery.Open;
+
+    // Copia os dados para o TFDMemTable
+    begin
+      AFDMemTable.Close;
+      AFDMemTable.Data := FQuery.Data;
+      AFDMemTable.Open;
+    end;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Erro ao carregar dados: ' + E.Message);
+    end;
+  end;
+end;
+
+
+procedure TPedidosEntrega.CarregarDadosRotas(const AFDMemTable: TFDMemTable;
+  pPedido: String);
+begin
+  try
+    // Prepara a query para selecionar os dados
+    FQuery.SQL.Clear;
+    FQuery.SQL.Add('  SELECT '+
+    '      a.NumeroPedidos, '+
+    '      b.NomeClientes, '+
+    '      a.DataEmissaoPedidos, '+
+    '      a.ValorTotalPedidos, '+
+    '      '+QuotedStr('Em Aberto')+' AS Status, '+
+    '      COALESCE( '+
+    '          (SELECT MIN(tp.PrioridadeTipoProduto) '+
+    '          FROM ItensPedido ip '+
+    '          JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '          JOIN TipoProduto tp ON tp.idTipoProduto = p.TipoProdutoProdutos '+
+    '          WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '      ), 9) AS MaiorPrioridade, '+ //Retorna a maior prioridade (1 é a maior, 9 é a menor)
+    '      CASE '+
+    '          WHEN EXISTS ( '+
+    '              SELECT 1 '+
+    '              FROM ItensPedido ip '+
+    '              JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '              WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '                AND p.CuidadosArmProdutos IS NOT NULL '+
+    '                AND p.CuidadosArmProdutos <> '+QuotedStr('')+
+    '          ) THEN '+QuotedStr('SIM')+' '+
+    '          ELSE '+QuotedStr('NÃO')+' '+
+    '      END AS Cuidados, '+ //Verifica se há produtos com cuidados especiais
+    '      CASE '+
+    '          WHEN EXISTS ( '+
+    '              SELECT 1 '+
+    '              FROM ItensPedido ip '+
+    '              JOIN Produtos p ON p.idProdutos = ip.ProdutoItensPedido '+
+    '              WHERE ip.PedidoItensPedido = a.NumeroPedidos '+
+    '                AND p.DataValidadeProdutos < CURRENT_DATE '+
+    '          ) THEN '+QuotedStr('SIM')+' '+
+    '          ELSE '+QuotedStr('NÃO')+' '+
+    '      END AS ValidadeVencida '+ //Verifica se há produtos com validade vencida
+    '  FROM Pedidos a '+
+    '  JOIN Clientes b ON b.CodigoClientes = a.ClientePedidos '+
+    '  WHERE a.StatusPedidos = 0 '); //Filtra apenas pedidos em aberto
+    if not pPedido.IsEmpty then
+      FQuery.SQL.Add(' AND a.NumeroPedidos = '+pPedido);
+    FQuery.SQL.Add(' ORDER BY MaiorPrioridade, a.DataEmissaoPedidos ');
+    FQuery.Open;
+
+    // Copia os dados para o TFDMemTable
+    begin
+      AFDMemTable.Close;
+      AFDMemTable.Data := FQuery.Data;
+      AFDMemTable.Open;
+    end;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create('Erro ao carregar dados: ' + E.Message);
+    end;
+  end;
+
+end;
+
 
 constructor TPedidosEntrega.Create;
 begin

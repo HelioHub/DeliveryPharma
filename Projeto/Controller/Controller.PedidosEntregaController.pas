@@ -16,8 +16,12 @@ type
     function GetOrdemEntrega: IPedidosEntrega;
     function SalvarPedidosEntrega(APedidosEntrega: IPedidosEntrega) : Boolean;
     function ExcluirPedidosEntrega(const AId: Integer): Boolean;
+
     procedure CarregarDadosPedidosEntrega(const AFDMemTable: TFDMemTable;
       pOrdemEntrega: String);
+    procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
+    procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
+      pidOrdem: String);
   end;
 
 implementation
@@ -25,6 +29,18 @@ implementation
 { TPedidosEntregaController }
 
 uses Utils.Consts;
+
+procedure TPedidosEntregaController.CarregarDadosPedidosOrdem(
+  const AFDMemTable: TFDMemTable; pidOrdem: String);
+begin
+  FPedidosEntrega.CarregarDadosPedidosOrdem(AFDMemTable, pidOrdem);
+end;
+
+procedure TPedidosEntregaController.CarregarDadosRotas(
+  const AFDMemTable: TFDMemTable; pPedido: String);
+begin
+  FPedidosEntrega.CarregarDadosRotas(AFDMemTable, pPedido);
+end;
 
 constructor TPedidosEntregaController.Create;
 begin

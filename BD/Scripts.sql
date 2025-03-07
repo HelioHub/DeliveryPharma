@@ -59,9 +59,9 @@ CREATE GENERATOR GEN_TipoProduto_ID;
 /*
   Prioridade na Entrega + Data da Ordem
   ----------------------------------------------
-  PrioridadeTipoProduto - {1-Primeira, 2-Segunda, 3-Terceira, ..., 9-Última};
+  PrioridadeTipoProduto - {1-Primeira, 2-Segunda, 3-Terceira, ..., 9-Normal};
 
-  Sim o Produto tem ou não a definição do Campo:
+  Produto tem ou não a definição do Campo:
   ----------------------------------------------
   PrescricaoTipoProduto - {0-Não/1-Sim};
   CuidadosTipoProduto   - {0-Não/1-Sim};
@@ -105,8 +105,8 @@ CREATE GENERATOR GEN_Pedidos_ID;
 CREATE INDEX FK_CLIENTE_idx ON Pedidos (ClientePedidos);
 CREATE INDEX INDEX_DATAEMISSAO ON Pedidos (DataEmissaoPedidos);
 /*
-  StatusPedido:
-  -------------
+  StatusPedidos:
+  --------------
   0 - Em Aberto;
   1 - Fechado;
 */

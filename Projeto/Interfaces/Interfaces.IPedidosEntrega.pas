@@ -34,6 +34,9 @@ type
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
 
     procedure CarregarDados(const AFDMemTable: TFDMemTable; pOrdemEntrega: String); // Implementação do método CarregarDados
+    procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
+    procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
+      pidOrdem: String);
   end;
 
 implementation

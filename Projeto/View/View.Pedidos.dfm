@@ -23,7 +23,6 @@ object FViewPedidos: TFViewPedidos
     Height = 44
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 641
     DesignSize = (
       853
       44)
@@ -141,7 +140,6 @@ object FViewPedidos: TFViewPedidos
       ParentFont = False
       TabOrder = 8
       Text = '100'
-      ExplicitLeft = 602
     end
     object BBProdutoMaisVendido: TBitBtn
       Left = 276
@@ -224,7 +222,7 @@ object FViewPedidos: TFViewPedidos
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      ImageIndex = 5
+      ImageIndex = 9
       Images = DMUtils.ILImagensSystem
       NumGlyphs = 2
       ParentFont = False
@@ -243,8 +241,6 @@ object FViewPedidos: TFViewPedidos
     Alignment = taLeftJustify
     Caption = '   Itens do Pedido:'
     TabOrder = 4
-    ExplicitTop = 337
-    ExplicitWidth = 641
   end
   object PViewPedidos: TPanel
     Left = 0
@@ -253,8 +249,6 @@ object FViewPedidos: TFViewPedidos
     Height = 290
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 641
-    ExplicitHeight = 221
     object DBGView: TDBGrid
       Left = 1
       Top = 1
@@ -335,7 +329,6 @@ object FViewPedidos: TFViewPedidos
     Height = 72
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 641
     DesignSize = (
       853
       72)
@@ -431,7 +424,6 @@ object FViewPedidos: TFViewPedidos
       ParentFont = False
       TabOrder = 4
       OnClick = BBAtualizarClick
-      ExplicitLeft = 748
     end
     object DTPDEIni: TDateTimePicker
       Left = 150
@@ -473,8 +465,6 @@ object FViewPedidos: TFViewPedidos
     Height = 105
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 361
-    ExplicitWidth = 641
     object DBGViewItens: TDBGrid
       Left = 1
       Top = 1

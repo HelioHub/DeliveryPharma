@@ -14,7 +14,7 @@ type
     destructor Destroy; override;
 
     function GetEntregador: IEntregador;
-    procedure CarregarDadosEntregadors(const AFDMemTable: TFDMemTable; pIdEntregador: String);
+    procedure CarregarDadosEntregadors(const AFDMemTable: TFDMemTable; pIdEntregador, pStatus: String);
   end;
 
 implementation
@@ -40,9 +40,9 @@ begin
 end;
 
 procedure TEntregadorController.CarregarDadosEntregadors(const AFDMemTable: TFDMemTable;
-  pIdEntregador: String);
+  pIdEntregador, pStatus: String);
 begin
-  FEntregador.CarregarDados(AFDMemTable, pIdEntregador);
+  FEntregador.CarregarDados(AFDMemTable, pIdEntregador, pStatus);
 end;
 
 end.

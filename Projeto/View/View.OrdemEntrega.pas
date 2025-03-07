@@ -9,7 +9,8 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.DBCtrls, Utils.Consts, Controller.OrdemEntregaController;
+  Vcl.DBCtrls, Utils.Consts, Controller.OrdemEntregaController,
+  Controller.PedidosEntregaController;
 
 type
   TFViewOrdemEntrega = class(TForm)
@@ -63,14 +64,21 @@ type
     PedidosMemTableOBSPedidosEntrega: TStringField;
     procedure FormShow(Sender: TObject);
     procedure BBIncluirClick(Sender: TObject);
+    procedure BBAlterarClick(Sender: TObject);
+    procedure BBSairClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BBExcluirClick(Sender: TObject);
+    procedure BBAtualizarClick(Sender: TObject);
+    procedure SBClearOrdemClick(Sender: TObject);
+    procedure SBClearNomeClienteClick(Sender: TObject);
+    procedure DSViewOrdensDataChange(Sender: TObject; Field: TField);
   private
     { Private declarations }
     FOrdemEntregaController: TOrdemEntregaController;
+    FPedidosEntregaController: TPedidosEntregaController;
 
-    procedure TratarDelete;
     procedure pCRUD(pAcao: TAcao);
     procedure pAtualizacao;
-
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -85,25 +93,61 @@ implementation
 
 {$R *.dfm}
 
-uses View.Dados.PedidosEnrtega;
+uses View.Dados.PedidosEntrega;
 
 { TFViewOrdemEntrega }
+
+procedure TFViewOrdemEntrega.BBAlterarClick(Sender: TObject);
+begin
+  pCRUD(acAlterar);
+end;
+
+procedure TFViewOrdemEntrega.BBAtualizarClick(Sender: TObject);
+begin
+  pAtualizacao;
+end;
+
+procedure TFViewOrdemEntrega.BBExcluirClick(Sender: TObject);
+begin
+  pCRUD(acExcluir);
+end;
 
 procedure TFViewOrdemEntrega.BBIncluirClick(Sender: TObject);
 begin
   pCRUD(acIncluir);
 end;
 
+procedure TFViewOrdemEntrega.BBSairClick(Sender: TObject);
+begin
+  DSViewOrdens.DataSet.Close;
+  Close;
+end;
+
 constructor TFViewOrdemEntrega.Create(AOwner: TComponent);
 begin
   inherited;
   FOrdemEntregaController := TOrdemEntregaController.Create;
+  FPedidosEntregaController := TPedidosEntregaController.Create;
 end;
 
 destructor TFViewOrdemEntrega.Destroy;
 begin
   FOrdemEntregaController.Free;
+  FPedidosEntregaController.Free;
   inherited;
+end;
+
+procedure TFViewOrdemEntrega.DSViewOrdensDataChange(Sender: TObject;
+  Field: TField);
+begin
+  FPedidosEntregaController.CarregarDadosPedidosOrdem(PedidosMemTable,
+    DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString);
+end;
+
+procedure TFViewOrdemEntrega.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action := CaFree;
 end;
 
 procedure TFViewOrdemEntrega.FormShow(Sender: TObject);
@@ -140,7 +184,7 @@ begin
   begin
     if FOrdemEntregaController.ExcluirOrdemEntrega(
        DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsInteger) then
-      ShowMessage('Ordem de Entrega excluído com sucesso!')
+      ShowMessage('Ordem de Entrega excluída com sucesso!')
     else
       ShowMessage('Erro ao excluir Ordem de Entrega.');
   end
@@ -152,26 +196,41 @@ begin
       FormPedidosEntrega.Caption := FormPedidosEntrega.Caption + '-' + cAcaoIncluir;
       FormPedidosEntrega.LEOrdemEntrega.Clear;
       FormPedidosEntrega.DTPDataEmissao.DateTime := Now;
+      FormPedidosEntrega.LEStatus.Text := cStatusPendenteOrdemEntrega;
     end
     else
     begin
+      if DSViewOrdens.DataSet.FieldByName('Status').AsString <> cStatusPendenteOrdemEntrega then
+      begin
+        FormPedidosEntrega.BBGravar.Enabled := False;
+        FormPedidosEntrega.BBGeracaoAutomatica.Enabled := False;
+        FormPedidosEntrega.BBInc.Enabled := False;
+        FormPedidosEntrega.BBExc.Enabled := False;
+        ShowMessage('Alteração somente possível para Ordem de Entrega '+cStatusPendenteOrdemEntrega+'!');
+      end;
       FormPedidosEntrega.Caption := FormPedidosEntrega.Caption + '-' + cAcaoAlterar;
       FormPedidosEntrega.LEOrdemEntrega.Text := DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString;
-      FormPedidosEntrega.DTPDataEmissao.DateTime := DSViewOrdens.DataSet.FieldByName('DataEmissaoPedidos').AsDateTime;
+      FormPedidosEntrega.DTPDataEmissao.DateTime := DSViewOrdens.DataSet.FieldByName('EmissaoOrdemEntrega').AsDateTime;
       FormPedidosEntrega.LECodigoEntregador.Text := DSViewOrdens.DataSet.FieldByName('EntregadorOrdenEntrega').AsString;
+      FormPedidosEntrega.DBLCBEntregador.KeyValue := DSViewOrdens.DataSet.FieldByName('EntregadorOrdenEntrega').AsInteger;
       FormPedidosEntrega.DTPSaida.DateTime := DSViewOrdens.DataSet.FieldByName('SaidaOrdemEntrega').AsDateTime;
       FormPedidosEntrega.DTPChegada.DateTime := DSViewOrdens.DataSet.FieldByName('ChegadaOrdemEntrega').AsDateTime;
       FormPedidosEntrega.LEStatus.Text := DSViewOrdens.DataSet.FieldByName('Status').AsString;
-      FormPedidosEntrega.DBREObsOrdemEntrega.Text := DSViewOrdens.DataSet.FieldByName('OBSOrdemEntrega').AsString;
+      FormPedidosEntrega.MObsOrdem.Text := DSViewOrdens.DataSet.FieldByName('OBSOrdemEntrega').AsString;
     end;
     FormPedidosEntrega.ShowModal;
   end;
   pAtualizacao;
 end;
 
-procedure TFViewOrdemEntrega.TratarDelete;
+procedure TFViewOrdemEntrega.SBClearNomeClienteClick(Sender: TObject);
 begin
-  //
+  LEFiltroNomeEntregador.Clear;
+end;
+
+procedure TFViewOrdemEntrega.SBClearOrdemClick(Sender: TObject);
+begin
+  LEFiltroIdOrdem.Clear;
 end;
 
 end.

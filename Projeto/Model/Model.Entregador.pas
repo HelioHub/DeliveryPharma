@@ -35,7 +35,7 @@ type
     function Salvar: Boolean; // Implementação do método Salvar
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
 
-    procedure CarregarDados(const AFDMemTable: TFDMemTable; pEntregador: String); // Implementação do método CarregarDados
+    procedure CarregarDados(const AFDMemTable: TFDMemTable; pEntregador, pStatus: String); // Implementação do método CarregarDados
 end;
 
 implementation
@@ -161,7 +161,7 @@ begin
   end;
 end;
 
-procedure TEntregador.CarregarDados(const AFDMemTable: TFDMemTable; pEntregador: String);
+procedure TEntregador.CarregarDados(const AFDMemTable: TFDMemTable; pEntregador, pStatus: String);
 begin
   try
     // Prepara a query para selecionar os dados
@@ -172,10 +172,12 @@ begin
     FQuery.SQL.Add('   WHEN a.SituacaoEntregador = 0 THEN '+QuotedStr('Disponível'));
     FQuery.SQL.Add('   WHEN a.SituacaoEntregador = 1 THEN '+QuotedStr('Não Disponível'));
     FQuery.SQL.Add('   ELSE '+QuotedStr('Desconhecido'));
-    FQuery.SQL.Add(' END AS Situacao ');
+    FQuery.SQL.Add(' END AS Status ');
     FQuery.SQL.Add(' FROM Entregador a ');
     if not pEntregador.IsEmpty then
       FQuery.SQL.Add(' WHERE a.idEntregador = '+pEntregador);
+    if not pStatus.IsEmpty then
+      FQuery.SQL.Add(' WHERE a.SituacaoEntregador = '+pStatus);
     FQuery.SQL.Add(' ORDER BY a.NomeEntregador ');
     FQuery.Open;
 

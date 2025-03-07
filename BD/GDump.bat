@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Firebird\Firebird_2_5\bin\gbak.exe" -b -v -user SYSDBA -password masterkey C:\DeliveryPharma\BD\DBDELIVERYPHARMA.fdb C:\DeliveryPharma\DUMP\backupDeliveryPharma.fbk

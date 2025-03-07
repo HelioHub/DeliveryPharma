@@ -25,7 +25,7 @@ type
     function Salvar: Boolean; // Implementação do método Salvar
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
 
-    procedure CarregarDados(const AFDMemTable: TFDMemTable; pEntregador: String); // Implementação do método CarregarDados
+    procedure CarregarDados(const AFDMemTable: TFDMemTable; pEntregador, pStatus: String); // Implementação do método CarregarDados
   end;
 
 implementation

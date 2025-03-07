@@ -11,6 +11,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OnClose = FormClose
   OnShow = FormShow
   TextHeight = 13
   object PViewPedidos: TPanel
@@ -114,9 +115,8 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
+      ReadOnly = True
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 220
     end
   end
   object PHead: TPanel
@@ -145,7 +145,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ExplicitLeft = 527
     end
     object BBIncluir: TBitBtn
-      Left = 0
+      Left = 3
       Top = 8
       Width = 63
       Height = 30
@@ -165,7 +165,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       OnClick = BBIncluirClick
     end
     object BBAlterar: TBitBtn
-      Left = 69
+      Left = 72
       Top = 8
       Width = 63
       Height = 30
@@ -182,9 +182,10 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
+      OnClick = BBAlterarClick
     end
     object BBExcluir: TBitBtn
-      Left = 133
+      Left = 136
       Top = 8
       Width = 63
       Height = 30
@@ -201,9 +202,10 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 2
+      OnClick = BBExcluirClick
     end
     object BBSair: TBitBtn
-      Left = 197
+      Left = 200
       Top = 8
       Width = 63
       Height = 30
@@ -222,6 +224,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 3
+      OnClick = BBSairClick
     end
     object ENR: TEdit
       Left = 840
@@ -313,7 +316,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Top = 1
       Width = 23
       Height = 22
-      Hint = 'Limpar Id'
+      Hint = 'Limpar Ordem de Entrega'
       ImageIndex = 7
       Images = DMUtils.ILImagensSystem
       Font.Charset = DEFAULT_CHARSET
@@ -324,13 +327,14 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
+      OnClick = SBClearOrdemClick
     end
     object SBClearNomeCliente: TSpeedButton
       Left = 385
       Top = 25
       Width = 23
       Height = 22
-      Hint = 'Limpar Nome do Cliente'
+      Hint = 'Limpar Nome do Entregador'
       ImageIndex = 7
       Images = DMUtils.ILImagensSystem
       Font.Charset = DEFAULT_CHARSET
@@ -341,6 +345,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
+      OnClick = SBClearNomeClienteClick
     end
     object LEFiltroIdOrdem: TLabeledEdit
       Left = 164
@@ -383,6 +388,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Images = DMUtils.ILImagensSystem
       ParentFont = False
       TabOrder = 4
+      OnClick = BBAtualizarClick
     end
     object DTPDEIni: TDateTimePicker
       Left = 164
@@ -580,6 +586,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
   end
   object DSViewOrdens: TDataSource
     DataSet = OrdensEntregaMemTable
+    OnDataChange = DSViewOrdensDataChange
     Left = 307
     Top = 160
   end
