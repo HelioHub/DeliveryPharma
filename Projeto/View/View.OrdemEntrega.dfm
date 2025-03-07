@@ -445,9 +445,10 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Items.Strings = (
         'Pendente'
         'Em Andamento'
-        'Entregue Parcial'
         'Entregue Total'
-        'Todos')
+        'Entregue '
+        'Todos'
+        '')
       TabOrder = 5
     end
   end

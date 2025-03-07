@@ -329,14 +329,28 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Telas Feitas 
 
-	###Cadastro de Clientes (com Filtros)
+	Cadastro de Clientes (com Filtros)
 	
-	###Cadastro e Acompanhamento de Pedidos com Relatório e Gráficos  (com Filtros)
+	Cadastro e Acompanhamento de Pedidos com Relatório e Gráficos (com Filtros)
 	
-	###Cadastro e Acompanhamento de Ordem de Entrega e Emissão da Ordem para o Entregador (com Filtros)
+	Cadastro e Acompanhamento de Ordem de Entrega e Emissão da Ordem de Entrega Entregador (com Filtros)
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadPedidos.png)
+
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadOrdemEntrega.png)
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/3PedidosMesmoClienteMesmoEntregador.png)
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/AcompanhamentoEntrega.png)
+
+	Pedido Fechado não mexe mais
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/PedidoFechadoNaoMexeMais.png)
+
+	Processos Definição Rota -> Ordem de Entrega -> Saída -> Retorno
+	
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Processos.png)
+	
 
 ## Ordem de Entrega dos Pedidos 
 
