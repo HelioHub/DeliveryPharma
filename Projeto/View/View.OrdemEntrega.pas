@@ -23,7 +23,7 @@ type
     BBExcluir: TBitBtn;
     BBSair: TBitBtn;
     ENR: TEdit;
-    BBOrdens: TBitBtn;
+    BBSaida: TBitBtn;
     PFiltrar: TPanel;
     LDT: TLabel;
     Label1: TLabel;
@@ -44,7 +44,7 @@ type
     PedidosMemTable: TFDMemTable;
     DBREObs: TDBRichEdit;
     DBREObsPedido: TDBRichEdit;
-    BitBtn1: TBitBtn;
+    BBRetorno: TBitBtn;
     OrdensEntregaMemTableEmissaoOrdemEntrega: TSQLTimeStampField;
     OrdensEntregaMemTableNomeEntregador: TStringField;
     OrdensEntregaMemTableSaidaOrdemEntrega: TSQLTimeStampField;
@@ -62,6 +62,8 @@ type
     PedidosMemTableCodigoClientes: TIntegerField;
     PedidosMemTableStatus: TStringField;
     PedidosMemTableOBSPedidosEntrega: TStringField;
+    OrdensEntregaMemTableStatusOrdemEntrega2: TIntegerField;
+    BBImpOrdem: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure BBIncluirClick(Sender: TObject);
     procedure BBAlterarClick(Sender: TObject);
@@ -72,8 +74,9 @@ type
     procedure SBClearOrdemClick(Sender: TObject);
     procedure SBClearNomeClienteClick(Sender: TObject);
     procedure DSViewOrdensDataChange(Sender: TObject; Field: TField);
-    procedure BBOrdensClick(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure BBSaidaClick(Sender: TObject);
+    procedure BBRetornoClick(Sender: TObject);
+    procedure BBImpOrdemClick(Sender: TObject);
   private
     { Private declarations }
     FOrdemEntregaController: TOrdemEntregaController;
@@ -81,6 +84,7 @@ type
 
     procedure pCRUD(pAcao: TAcao);
     procedure pAtualizacao;
+    procedure pImpressaoOrdem;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -114,15 +118,17 @@ begin
   pCRUD(acExcluir);
 end;
 
+procedure TFViewOrdemEntrega.BBImpOrdemClick(Sender: TObject);
+begin
+  pImpressaoOrdem;
+end;
+
 procedure TFViewOrdemEntrega.BBIncluirClick(Sender: TObject);
 begin
   pCRUD(acIncluir);
 end;
 
-procedure TFViewOrdemEntrega.BBOrdensClick(Sender: TObject);
-var
-  HTML: string;
-  FileName: string;
+procedure TFViewOrdemEntrega.BBSaidaClick(Sender: TObject);
 begin
   if (DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').IsNull) then
   begin
@@ -137,8 +143,19 @@ begin
     Exit;
   end;
   Beep;
-  ShowMessage('Atenção!! Após o Envio o Pedido não será mais permitido Alterar');
+  ShowMessage('Atenção!!'+cEOL+'Após o Envio o Pedido não será mais permitido Alterar.');
 
+  pImpressaoOrdem;
+
+  FOrdemEntregaController.SalvarOrdemEmProcesso(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString, cProcessoSaida);
+  pAtualizacao;
+end;
+
+procedure TFViewOrdemEntrega.pImpressaoOrdem;
+var
+  HTML: string;
+  FileName: string;
+begin
   HTML := FOrdemEntregaController.GerarOrdemEntregaHTML(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString);
 
   // Salva o HTML em um arquivo temporário
@@ -153,9 +170,8 @@ begin
 
   // Abre o arquivo no navegador padrão
   ShellExecute(0, 'open', PChar(FileName), nil, nil, SW_SHOWNORMAL);
-
-  FOrdemEntregaController.SalvarOrdemEmProcesso(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString, cProcessoSaida);
 end;
+
 
 procedure TFViewOrdemEntrega.BBSairClick(Sender: TObject);
 begin
@@ -163,16 +179,19 @@ begin
   Close;
 end;
 
-procedure TFViewOrdemEntrega.BitBtn1Click(Sender: TObject);
+procedure TFViewOrdemEntrega.BBRetornoClick(Sender: TObject);
 begin
-  if (DSViewOrdens.DataSet.FieldByName('StatusOrdemEntrega').AsInteger > cZero+1) then
+  if (DSViewOrdens.DataSet.FieldByName('StatusOrdemEntrega').AsInteger <> (cZero+1)) then
   begin
     beep;
-    ShowMessage('Ordem de Entrega já Retornada!');
+    ShowMessage('Status da Ordem de Entrega Indevida!');
     Exit;
   end;
+  Beep;
+  ShowMessage('Atenção!!'+cEOL+'Ordem de Entrega será Fechada.');
 
   FOrdemEntregaController.SalvarOrdemEmProcesso(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString, cProcessoRetorno);
+  pAtualizacao;
 end;
 
 constructor TFViewOrdemEntrega.Create(AOwner: TComponent);

@@ -318,10 +318,11 @@ begin
     FQuery.SQL.Add('  a.SaidaOrdemEntrega, ');
     FQuery.SQL.Add('  a.ChegadaOrdemEntrega, ');
     FQuery.SQL.Add('  a.OBSOrdemEntrega, ');
+    FQuery.SQL.Add('  a.StatusOrdemEntrega, ');
     FQuery.SQL.Add(' CASE                  ');
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 0 THEN '+QuotedStr('Pendente'));
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 1 THEN '+QuotedStr('Em Andamento'));
-    FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 2 THEN '+QuotedStr('Entregue Parcial'));
+    FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 2 THEN '+QuotedStr('Entregue Total'));
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 3 THEN '+QuotedStr('Entregue Total'));
     FQuery.SQL.Add('   ELSE '+QuotedStr('Desconhecido'));
     FQuery.SQL.Add(' END AS Status ');
@@ -406,6 +407,7 @@ begin
       '  c.LongitudeClientes, ' +
       '  c.LatitudeClientes, ' +
       '  p.DescricaoProdutos, ' +
+      '  pd.DataEmissaoPedidos, ' +
       '  ip.QuantidadeItensPedido, ' +
       '  tp.PrioridadeTipoProduto, ' +
       '  p.CuidadosArmProdutos, ' +
@@ -464,7 +466,7 @@ begin
         // Inicia um novo pedido
         PedidoAtual := FQuery.FieldByName('PedidoPedidosEntrega').AsInteger;
         HTML.Add('<div class="pedido">');
-        HTML.Add('<h3>Pedido: ' + FQuery.FieldByName('PedidoPedidosEntrega').AsString + '</h3>');
+        HTML.Add('<h3>Pedido: ' + FQuery.FieldByName('PedidoPedidosEntrega').AsString +' - Data de Emissão do Pedido: '+ FormatDateTime('dd/mm/yyyy hh:nn', FQuery.FieldByName('DataEmissaoPedidos').AsDateTime) +'</h3>');
         HTML.Add('<div class="endereco">');
         HTML.Add('<p><strong>Cliente:</strong> ' + FQuery.FieldByName('NomeClientes').AsString + '</p>');
         HTML.Add('<p><strong>Endereço:</strong> ' +

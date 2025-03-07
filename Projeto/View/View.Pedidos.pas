@@ -73,6 +73,7 @@ type
     PedidosMemTableStatus: TStringField;
     ItensMemTableCodigoProdutos: TStringField;
     ItensMemTableDescricaoTipoProduto: TStringField;
+    PedidosMemTableStatusPedidos: TIntegerField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BBSairClick(Sender: TObject);
     procedure BBIncluirClick(Sender: TObject);
@@ -321,7 +322,7 @@ begin
      (pAcao <> acIncluir) then
   begin
     Beep;
-    ShowMessage('Alteração Do Pedido não mais Permitido!'+cEOL+'Pedido já Encaminhado para o Cliente.');
+    ShowMessage('Alteração do Pedido não mais Permitido!'+cEOL+'Pedido já Encaminhado para o Cliente.');
     Exit;
   end;
 

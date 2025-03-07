@@ -505,14 +505,14 @@ object FViewPedidos: TFViewPedidos
           Expanded = False
           FieldName = 'CodigoProdutos'
           Title.Caption = 'C'#243'digo'
-          Width = 72
+          Width = 55
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DescricaoTipoProduto'
           Title.Caption = 'Tipo'
-          Width = 144
+          Width = 161
           Visible = True
         end
         item
@@ -588,6 +588,9 @@ object FViewPedidos: TFViewPedidos
     end
     object PedidosMemTableStatus: TStringField
       FieldName = 'Status'
+    end
+    object PedidosMemTableStatusPedidos: TIntegerField
+      FieldName = 'StatusPedidos'
     end
   end
   object PMOptions: TPopupMenu

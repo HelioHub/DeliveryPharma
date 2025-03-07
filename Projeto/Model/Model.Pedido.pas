@@ -184,6 +184,7 @@ begin
     FQuery.SQL.Add(' 	p.NumeroPedidos,     ');
     FQuery.SQL.Add(' 	p.DataEmissaoPedidos,');
     FQuery.SQL.Add('  p.ClientePedidos,    ');
+    FQuery.SQL.Add('  p.StatusPedidos,     ');
     FQuery.SQL.Add(' CASE                  ');
     FQuery.SQL.Add('   WHEN p.StatusPedidos = 0 THEN '+QuotedStr('Em aberto'));
     FQuery.SQL.Add('   WHEN p.StatusPedidos = 1 THEN '+QuotedStr('Fechado'));

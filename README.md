@@ -9,7 +9,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Diagrama de Entidade e Relacionamento 
 
-![## Diagrama de Entidade e Relacionamento CX](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/EERDiagram.png)
+![## Diagrama de Entidade e Relacionamento](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/EERDiagram.png)
 
 ## Arquitetura do Sistema 
 
@@ -47,7 +47,12 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 	https://balta.io/artigos/clean-code	
 
-## Criação do Banco de Dados e Objetos do Banco
+## Criação do Banco de Dados e Objetos 
+
+![## Diagrama de Entidade e Relacionamento](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/CreateDB.png)
+
+## Script dos Objetos do Banco 
+
 
 	-- ==== Projeto DBDeliveryPharma === --
 	-- ====   Hélio  Marques  === --
@@ -333,7 +338,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadPedidos.png)
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadOrdemEntrega.png)
 
-## Feito Ordem de Entrega dos Pedidos
+## Ordem de Entrega dos Pedidos 
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/OrdemEntrega.png)
 
@@ -345,6 +350,15 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 	De Pizza
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza2.png)
+
+## Utilização do Padrão de Projeto Comportamental VISITOR no cadastro do Produto
+
+	Definição do Preço Atacado ou Varejo.
+
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/VisitorPattern.png)	
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/TipoCliente.png)	
+
+	
 
 
 

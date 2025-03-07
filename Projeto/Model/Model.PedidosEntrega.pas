@@ -117,7 +117,7 @@ begin
     '  FROM Pedidos a '+
     '  JOIN Clientes b ON b.CodigoClientes = a.ClientePedidos '+
     '  JOIN PedidosEntrega c ON c.PedidoPedidosEntrega = a.NumeroPedidos '+
-    '  WHERE a.StatusPedidos = 0 '); //Filtra apenas pedidos em aberto
+    '  WHERE 0 = 0 ');
     if not pidOrdem.IsEmpty then
       FQuery.SQL.Add(' AND c.OrdemEntregaPedidosEntrega = '+pidOrdem);
     FQuery.SQL.Add(' ORDER BY Prioridade, a.DataEmissaoPedidos ');
@@ -370,7 +370,7 @@ begin
     FQuery.SQL.Add(' CASE                  ');
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 0 THEN '+QuotedStr('Pendente'));
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 1 THEN '+QuotedStr('Em Andamento'));
-    FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 2 THEN '+QuotedStr('Entregue Parcial'));
+    FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 2 THEN '+QuotedStr('Entregue Total'));
     FQuery.SQL.Add('   WHEN a.StatusOrdemEntrega = 3 THEN '+QuotedStr('Entregue Total'));
     FQuery.SQL.Add('   ELSE '+QuotedStr('Desconhecido'));
     FQuery.SQL.Add(' END AS Status ');

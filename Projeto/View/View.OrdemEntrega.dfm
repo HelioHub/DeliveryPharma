@@ -243,17 +243,61 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       Font.Style = [fsBold]
       NumbersOnly = True
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 7
       Text = '100'
     end
-    object BBOrdens: TBitBtn
-      Left = 385
+    object BBSaida: TBitBtn
+      Left = 493
       Top = 8
-      Width = 152
+      Width = 124
       Height = 30
       Hint = 'Rota de Entrega Considerando Prioridade do Produto.'
       Cancel = True
       Caption = 'Sa'#237'da da Entrega'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ImageIndex = 6
+      Images = DMUtils.ILImagensSystem
+      NumGlyphs = 2
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 5
+      OnClick = BBSaidaClick
+    end
+    object BBRetorno: TBitBtn
+      Left = 622
+      Top = 8
+      Width = 124
+      Height = 30
+      Hint = 'Estabalece o Retorno da Rota.'
+      Cancel = True
+      Caption = 'Retorno da Rota'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ImageIndex = 7
+      Images = DMUtils.ILImagensSystem
+      NumGlyphs = 2
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+      OnClick = BBRetornoClick
+    end
+    object BBImpOrdem: TBitBtn
+      Left = 363
+      Top = 8
+      Width = 124
+      Height = 30
+      Hint = 'Somente Impress'#227'o da Ordem.'
+      Cancel = True
+      Caption = 'Ordem de Enrtega'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -266,29 +310,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 4
-      OnClick = BBOrdensClick
-    end
-    object BitBtn1: TBitBtn
-      Left = 543
-      Top = 8
-      Width = 152
-      Height = 30
-      Hint = 'Estabalece o Retorno da Rota.'
-      Cancel = True
-      Caption = 'Retorno da Rota'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ImageIndex = 4
-      Images = DMUtils.ILImagensSystem
-      NumGlyphs = 2
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 6
-      OnClick = BitBtn1Click
+      OnClick = BBImpOrdemClick
     end
   end
   object PFiltrar: TPanel
@@ -524,6 +546,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
           Visible = True
         end
         item
+          Color = 8454143
           Expanded = False
           FieldName = 'Status'
           Width = 170
@@ -588,6 +611,9 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
     object OrdensEntregaMemTableOBSOrdemEntrega: TStringField
       FieldName = 'OBSOrdemEntrega'
       Size = 1000
+    end
+    object OrdensEntregaMemTableStatusOrdemEntrega2: TIntegerField
+      FieldName = 'StatusOrdemEntrega'
     end
   end
   object DSViewOrdens: TDataSource
