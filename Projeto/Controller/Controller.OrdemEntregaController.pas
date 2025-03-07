@@ -25,7 +25,7 @@ implementation
 
 { TOrdemEntregaController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TOrdemEntregaController.Create;
 begin

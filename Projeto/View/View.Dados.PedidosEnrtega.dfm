@@ -1,9 +1,11 @@
 object FDadosPedidosEntrega: TFDadosPedidosEntrega
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Dados Pedidos da Entrega'
-  ClientHeight = 546
-  ClientWidth = 992
+  ClientHeight = 607
+  ClientWidth = 942
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,26 +13,25 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
-  object PView: TPanel
+  object PPedidosDisponivel: TPanel
     Left = 0
-    Top = 241
-    Width = 992
-    Height = 128
+    Top = 235
+    Width = 942
+    Height = 142
     Align = alBottom
-    TabOrder = 0
-    ExplicitTop = 200
+    TabOrder = 3
+    ExplicitTop = 240
     object DBGView: TDBGrid
       Left = 1
       Top = 1
-      Width = 990
-      Height = 126
-      Hint = 'Duplo Click para Alterar o Item do Pedido...'
+      Width = 940
+      Height = 140
       Align = alClient
       Color = 14286847
-      DataSource = DSDadosItensPedido
+      DataSource = DSPedidosDisp
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       ParentShowHint = False
-      ShowHint = True
+      ShowHint = False
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -41,60 +42,75 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
         item
           Alignment = taCenter
           Expanded = False
-          FieldName = 'idItensPedido'
+          FieldName = 'NumeroPedidos'
           Title.Alignment = taCenter
-          Title.Caption = 'Id'
-          Width = 29
+          Title.Caption = 'Pedido'
+          Width = 46
           Visible = True
         end
         item
           Alignment = taCenter
           Color = clSnow
           Expanded = False
-          FieldName = 'ProdutoItensPedido'
-          Title.Caption = 'C'#243'digo Item'
-          Width = 67
+          FieldName = 'NomeClientes'
+          Title.Caption = 'Cliente'
+          Width = 151
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'DataEmissaoPedidos'
+          Title.Alignment = taCenter
+          Title.Caption = 'Data do Pedido'
+          Width = 109
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'DescricaoProdutos'
-          Title.Caption = 'Descri'#231#227'o do Item'
-          Width = 209
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QuantidadeItensPedido'
+          FieldName = 'ValorTotalPedidos'
           Title.Alignment = taRightJustify
-          Title.Caption = 'Quantidade'
-          Width = 74
+          Title.Caption = 'Valor Pedido'
+          Width = 89
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'VlrUnitarioItensPedido'
-          Title.Alignment = taRightJustify
-          Title.Caption = 'Pre'#231'o Venda'
-          Width = 90
+          FieldName = 'Status'
+          Width = 112
           Visible = True
         end
         item
           Color = clSnow
           Expanded = False
-          FieldName = 'VlrTotalItensPedido'
-          Title.Alignment = taRightJustify
-          Title.Caption = 'Valor Total'
-          Width = 90
+          FieldName = 'MaiorPrioridade'
+          Title.Caption = '> Prioridade do Produto'
+          Width = 134
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Cuidados'
+          Title.Caption = 'Produto Cuidados de Arm?'
+          Width = 153
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'ValidadeVencida'
+          Title.Alignment = taCenter
+          Title.Caption = 'Produto Vencido?'
+          Width = 102
           Visible = True
         end>
     end
   end
-  object PItensPedido: TPanel
+  object PLabelPedidoDisponivel: TPanel
     Left = 0
-    Top = 226
-    Width = 992
-    Height = 15
+    Top = 217
+    Width = 942
+    Height = 18
     Align = alBottom
     Alignment = taLeftJustify
     Caption = 
@@ -106,18 +122,18 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
-    ExplicitTop = 123
-    ExplicitWidth = 599
+    TabOrder = 2
+    ExplicitTop = 212
   end
   object PDados: TPanel
     Left = 0
     Top = 0
-    Width = 992
-    Height = 185
+    Width = 942
+    Height = 186
     Align = alClient
-    TabOrder = 2
-    ExplicitHeight = 249
+    TabOrder = 0
+    ExplicitWidth = 992
+    ExplicitHeight = 185
     object LDT: TLabel
       Left = 39
       Top = 43
@@ -126,40 +142,32 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       Caption = 'Data de Emiss'#227'o:'
     end
     object LT: TLabel
-      Left = 197
+      Left = 171
       Top = 71
       Width = 5
       Height = 15
       Caption = '-'
     end
-    object SBF2: TSpeedButton
-      Left = 502
-      Top = 68
-      Width = 147
-      Height = 22
-      Caption = 'F2 -Concultar Entregador'
-      StyleName = 'Windows'
-    end
-    object Label1: TLabel
+    object LDTSaida: TLabel
       Left = 54
-      Top = 129
+      Top = 101
       Width = 74
       Height = 15
       Caption = 'Data de Sa'#237'da:'
     end
-    object Label2: TLabel
+    object LDTChegada: TLabel
       Left = 35
-      Top = 153
+      Top = 125
       Width = 93
       Height = 15
       Caption = 'Data de Chegada:'
     end
-    object Label4: TLabel
-      Left = 672
-      Top = 5
-      Width = 93
+    object LObsOrdemEntrega: TLabel
+      Left = 335
+      Top = 7
+      Width = 164
       Height = 15
-      Caption = 'Data de Chegada:'
+      Caption = 'Observa'#231#227'o Ordem de Entrega:'
     end
     object LEOrdemEntrega: TLabeledEdit
       Left = 131
@@ -181,14 +189,13 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       Width = 192
       Height = 21
       Date = 45686.000000000000000000
-      Format = 'dd/mm/yy hh:mm:ss'
       Time = 0.829977719906310100
       TabOrder = 1
     end
-    object LECodigoCliente: TLabeledEdit
+    object LECodigoEntregador: TLabeledEdit
       Left = 131
       Top = 67
-      Width = 61
+      Width = 38
       Height = 23
       EditLabel.Width = 61
       EditLabel.Height = 23
@@ -198,53 +205,43 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       TabOrder = 2
       Text = ''
     end
-    object EDescCliente: TEdit
-      Left = 206
-      Top = 67
-      Width = 292
-      Height = 23
-      Enabled = False
-      TabOrder = 3
-    end
-    object LETotalPedido: TLabeledEdit
-      Left = 131
-      Top = 97
-      Width = 192
-      Height = 23
-      Alignment = taRightJustify
-      EditLabel.Width = 85
-      EditLabel.Height = 23
-      EditLabel.Caption = 'Total do Pedido:'
-      Enabled = False
-      LabelPosition = lpLeft
-      NumbersOnly = True
-      TabOrder = 4
-      Text = ''
-    end
-    object DateTimePicker1: TDateTimePicker
-      Left = 131
-      Top = 126
-      Width = 192
-      Height = 21
-      Date = 45686.000000000000000000
-      Format = 'dd/mm/yy hh:mm:ss'
-      Time = 0.829977719906310100
-      TabOrder = 5
-    end
-    object DateTimePicker2: TDateTimePicker
+    object LEStatus: TLabeledEdit
       Left = 131
       Top = 153
       Width = 192
+      Height = 23
+      Alignment = taRightJustify
+      EditLabel.Width = 32
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Status'
+      Enabled = False
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 6
+      Text = ''
+    end
+    object DTPSaida: TDateTimePicker
+      Left = 131
+      Top = 98
+      Width = 192
       Height = 21
       Date = 45686.000000000000000000
-      Format = 'dd/mm/yy hh:mm:ss'
       Time = 0.829977719906310100
-      TabOrder = 6
+      TabOrder = 4
     end
-    object DBRichEdit1: TDBRichEdit
-      Left = 672
-      Top = 26
-      Width = 309
+    object DTPChegada: TDateTimePicker
+      Left = 131
+      Top = 125
+      Width = 192
+      Height = 21
+      Date = 45686.000000000000000000
+      Time = 0.829977719906310100
+      TabOrder = 5
+    end
+    object DBREObsOrdemEntrega: TDBRichEdit
+      Left = 329
+      Top = 28
+      Width = 596
       Height = 148
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -253,20 +250,27 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       Font.Style = []
       TabOrder = 7
     end
+    object DBLCBEntregador: TDBLookupComboBox
+      Left = 178
+      Top = 67
+      Width = 145
+      Height = 23
+      TabOrder = 3
+    end
   end
   object POpcoes: TPanel
     Left = 0
-    Top = 369
-    Width = 992
-    Height = 177
+    Top = 377
+    Width = 942
+    Height = 230
     Align = alBottom
-    TabOrder = 3
+    TabOrder = 4
     ExplicitLeft = -1
-    ExplicitTop = 328
+    ExplicitTop = 382
     DesignSize = (
-      992
-      177)
-    object Label3: TLabel
+      942
+      230)
+    object L5Pedidos: TLabel
       Left = 262
       Top = 8
       Width = 402
@@ -282,12 +286,12 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       ParentFont = False
     end
     object BBInc: TBitBtn
-      Left = 10
-      Top = 5
+      Left = 14
+      Top = 4
       Width = 118
       Height = 23
       Anchors = [akRight]
-      Caption = '&Incluir Pedidos'
+      Caption = '&Incluir Pedidos >'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -298,12 +302,12 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       TabOrder = 0
     end
     object BBExc: TBitBtn
-      Left = 134
-      Top = 5
+      Left = 138
+      Top = 4
       Width = 118
       Height = 23
       Anchors = [akRight]
-      Caption = '&Excluir Pedidos'
+      Caption = '< &Excluir Pedidos'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -313,47 +317,18 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       ParentFont = False
       TabOrder = 1
     end
-    object LETotalItens: TLabeledEdit
-      Left = 894
-      Top = 144
-      Width = 97
-      Height = 21
-      Alignment = taRightJustify
-      Color = clRed
-      EditLabel.Width = 90
-      EditLabel.Height = 21
-      EditLabel.Caption = 'Total do Pedido:'
-      EditLabel.Font.Charset = DEFAULT_CHARSET
-      EditLabel.Font.Color = clWindowText
-      EditLabel.Font.Height = -11
-      EditLabel.Font.Name = 'Tahoma'
-      EditLabel.Font.Style = [fsBold]
-      EditLabel.ParentFont = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      LabelPosition = lpLeft
-      NumbersOnly = True
-      ParentFont = False
-      ReadOnly = True
-      TabOrder = 2
-      Text = ''
-    end
-    object DBGrid1: TDBGrid
+    object DBGPedidosEntrega: TDBGrid
       Left = 1
       Top = 33
-      Width = 990
-      Height = 143
-      Hint = 'Duplo Click para Alterar o Item do Pedido...'
+      Width = 940
+      Height = 130
       Align = alBottom
       Color = 14013951
-      DataSource = DSDadosItensPedido
+      DataSource = DSPedidosEntrega
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 3
+      TabOrder = 2
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -12
@@ -363,70 +338,117 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
         item
           Alignment = taCenter
           Expanded = False
-          FieldName = 'idItensPedido'
+          FieldName = 'idPedidosEntrega'
           Title.Alignment = taCenter
           Title.Caption = 'Id'
-          Width = 29
+          Width = 41
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'PedidoPedidosEntrega'
+          Title.Alignment = taCenter
+          Title.Caption = 'Pedido'
+          Width = 63
           Visible = True
         end
         item
           Alignment = taCenter
           Color = clSnow
           Expanded = False
-          FieldName = 'ProdutoItensPedido'
-          Title.Caption = 'C'#243'digo Item'
-          Width = 67
+          FieldName = 'NomeClientes'
+          Title.Caption = 'Cliente'
+          Width = 136
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'DescricaoProdutos'
-          Title.Caption = 'Descri'#231#227'o do Item'
+          FieldName = 'RuaClientes'
+          Title.Caption = 'Endere'#231'o'
           Width = 209
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'QuantidadeItensPedido'
-          Title.Alignment = taRightJustify
-          Title.Caption = 'Quantidade'
-          Width = 74
+          FieldName = 'CEPClientes'
+          Title.Caption = 'CEP'
+          Width = 70
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'NumeroRuaClientes'
+          Title.Alignment = taCenter
+          Title.Caption = 'N'#250'mero'
+          Width = 63
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'VlrUnitarioItensPedido'
-          Title.Alignment = taRightJustify
-          Title.Caption = 'Pre'#231'o Venda'
-          Width = 90
+          FieldName = 'BairroClientes'
+          Title.Caption = 'Bairro'
+          Width = 143
           Visible = True
         end
         item
           Color = clSnow
           Expanded = False
-          FieldName = 'VlrTotalItensPedido'
-          Title.Alignment = taRightJustify
-          Title.Caption = 'Valor Total'
-          Width = 90
+          FieldName = 'Prioridade'
+          Width = 171
           Visible = True
         end>
+    end
+    object PRodFinal: TPanel
+      Left = 1
+      Top = 163
+      Width = 940
+      Height = 18
+      Align = alBottom
+      Alignment = taLeftJustify
+      Caption = '  Observa'#231#227'o do Pedido da Entrega:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      ExplicitLeft = 0
+      ExplicitTop = 224
+      ExplicitWidth = 992
+    end
+    object DBREObsPedidoEntrega: TDBRichEdit
+      Left = 1
+      Top = 181
+      Width = 940
+      Height = 48
+      Align = alBottom
+      Color = 8454143
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      TabOrder = 4
+      ExplicitTop = 226
     end
   end
   object PRodape: TPanel
     Left = 0
-    Top = 185
-    Width = 992
-    Height = 41
+    Top = 186
+    Width = 942
+    Height = 31
     Align = alBottom
-    TabOrder = 4
-    ExplicitLeft = 8
-    ExplicitTop = 150
+    TabOrder = 1
+    ExplicitTop = 191
     DesignSize = (
-      992
-      41)
+      942
+      31)
     object BBSair: TBitBtn
-      Left = 906
-      Top = 6
+      Left = 856
+      Top = 2
       Width = 75
       Height = 25
       Anchors = [akRight]
@@ -440,14 +462,15 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       NumGlyphs = 2
       ParentFont = False
       TabOrder = 1
-      ExplicitLeft = 513
+      ExplicitLeft = 906
+      ExplicitTop = 6
     end
     object BBGravar: TBitBtn
-      Left = 704
-      Top = 6
+      Left = 654
+      Top = 2
       Width = 194
       Height = 25
-      Hint = 'Grava Pedido e seus Itens.'
+      Hint = 'Grava Ordem de Entrega e seus Pedidos.'
       Anchors = [akRight]
       Caption = '&Gravar Ordem de entrega'
       Font.Charset = DEFAULT_CHARSET
@@ -463,13 +486,33 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
       ShowHint = True
       TabOrder = 0
     end
+    object BBGeracaoAutomatica: TBitBtn
+      Left = 454
+      Top = 2
+      Width = 194
+      Height = 25
+      Anchors = [akRight]
+      Caption = 'Gera'#231#227'o &Autom'#225'tica de Rotas'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ImageIndex = 10
+      Images = DMUtils.ILImagensSystem
+      NumGlyphs = 2
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
   end
-  object DSDadosItensPedido: TDataSource
-    DataSet = ItensPedidoMemTable
+  object DSPedidosDisp: TDataSource
+    DataSet = PedidosDispMemTable
     Left = 712
     Top = 280
   end
-  object ItensPedidoMemTable: TFDMemTable
+  object PedidosDispMemTable: TFDMemTable
     FieldDefs = <>
     CachedUpdates = True
     IndexDefs = <>
@@ -483,38 +526,42 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     StoreDefs = True
     Left = 856
     Top = 280
-    object ItensPedidoMemTableidItensPedido: TIntegerField
-      FieldName = 'idItensPedido'
+    object PedidosDispMemTableNumeroPedidos: TIntegerField
+      FieldName = 'NumeroPedidos'
     end
-    object ItensPedidoMemTablePedidoItensPedido: TIntegerField
-      FieldName = 'PedidoItensPedido'
-    end
-    object ItensPedidoMemTableProdutoItensPedido: TIntegerField
-      FieldName = 'ProdutoItensPedido'
-    end
-    object ItensPedidoMemTableDescricaoProdutos: TStringField
-      FieldName = 'DescricaoProdutos'
+    object PedidosDispMemTableNomeClientes: TStringField
+      FieldName = 'NomeClientes'
       Size = 80
     end
-    object ItensPedidoMemTableQuantidadeItensPedido: TFMTBCDField
-      FieldName = 'QuantidadeItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosDispMemTableDataEmissaoPedidos: TSQLTimeStampField
+      FieldName = 'DataEmissaoPedidos'
     end
-    object ItensPedidoMemTableVlrUnitarioItensPedido: TFMTBCDField
-      FieldName = 'VlrUnitarioItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosDispMemTableValorTotalPedidos: TFMTBCDField
+      FieldName = 'ValorTotalPedidos'
     end
-    object ItensPedidoMemTableVlrTotalItensPedido: TFMTBCDField
-      FieldName = 'VlrTotalItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosDispMemTableStatus: TStringField
+      FieldName = 'Status'
+      Size = 30
+    end
+    object PedidosDispMemTableMaiorPrioridade: TStringField
+      FieldName = 'MaiorPrioridade'
+      Size = 30
+    end
+    object PedidosDispMemTableCuidados: TStringField
+      FieldName = 'Cuidados'
+      Size = 30
+    end
+    object PedidosDispMemTableValidadeVencido: TStringField
+      FieldName = 'ValidadeVencida'
+      Size = 30
     end
   end
-  object DataSource1: TDataSource
-    DataSet = FDMemTable1
+  object DSPedidosEntrega: TDataSource
+    DataSet = PedidosEntregaMemTable
     Left = 712
     Top = 448
   end
-  object FDMemTable1: TFDMemTable
+  object PedidosEntregaMemTable: TFDMemTable
     FieldDefs = <>
     CachedUpdates = True
     IndexDefs = <>
@@ -528,30 +575,34 @@ object FDadosPedidosEntrega: TFDadosPedidosEntrega
     StoreDefs = True
     Left = 856
     Top = 448
-    object IntegerField1: TIntegerField
-      FieldName = 'idItensPedido'
+    object PedidosEntregaMemTableidPedidosEntrega: TIntegerField
+      FieldName = 'idPedidosEntrega'
     end
-    object IntegerField2: TIntegerField
-      FieldName = 'PedidoItensPedido'
+    object PedidosEntregaMemTablePedidoPedidosEntrega: TIntegerField
+      FieldName = 'PedidoPedidosEntrega'
     end
-    object IntegerField3: TIntegerField
-      FieldName = 'ProdutoItensPedido'
-    end
-    object StringField1: TStringField
-      FieldName = 'DescricaoProdutos'
+    object PedidosEntregaMemTableNomeClientes: TStringField
+      FieldName = 'NomeClientes'
       Size = 80
     end
-    object FMTBCDField1: TFMTBCDField
-      FieldName = 'QuantidadeItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosEntregaMemTableRuaClientes: TStringField
+      FieldName = 'RuaClientes'
+      Size = 100
     end
-    object FMTBCDField2: TFMTBCDField
-      FieldName = 'VlrUnitarioItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosEntregaMemTableCEPClientes: TStringField
+      FieldName = 'CEPClientes'
+      Size = 8
     end
-    object FMTBCDField3: TFMTBCDField
-      FieldName = 'VlrTotalItensPedido'
-      DisplayFormat = '###,##0.00'
+    object PedidosEntregaMemTableNumeroRuaClientes: TIntegerField
+      FieldName = 'NumeroRuaClientes'
+    end
+    object PedidosEntregaMemTableBairroClientes: TStringField
+      FieldName = 'BairroClientes'
+      Size = 50
+    end
+    object PedidosEntregaMemTablePrioridade: TStringField
+      FieldName = 'Prioridade'
+      Size = 30
     end
   end
 end

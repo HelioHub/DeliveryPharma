@@ -29,7 +29,7 @@ implementation
 
 { TItemPedidoController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TItemPedidoController.Create;
 begin

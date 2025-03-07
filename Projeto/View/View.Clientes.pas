@@ -11,7 +11,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.StorageBin,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Menus,
   Controller.ClienteController,  System.Generics.Collections,
-  CXConst, Winapi.ShellAPI, Vcl.ComCtrls, Vcl.DBCtrls;
+  Utils.Consts, Winapi.ShellAPI, Vcl.ComCtrls, Vcl.DBCtrls;
 
 type
   TFViewClientes = class(TForm)

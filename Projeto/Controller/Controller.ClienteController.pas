@@ -26,7 +26,7 @@ implementation
 
 { TClienteController }
 
-uses CXConst;
+uses Utils.Consts;
 
 function TClienteController.CarregarNomePorId(pId: String): String;
 begin

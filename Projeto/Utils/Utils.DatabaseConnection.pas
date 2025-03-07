@@ -25,7 +25,7 @@ implementation
 
 { TDatabaseConnection }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TDatabaseConnection.Create;
 var

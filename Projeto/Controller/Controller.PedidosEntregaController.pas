@@ -24,7 +24,7 @@ implementation
 
 { TPedidosEntregaController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TPedidosEntregaController.Create;
 begin

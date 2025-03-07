@@ -139,6 +139,13 @@ CREATE TABLE Entregador (
   SituacaoEntregador SMALLINT DEFAULT 0
 );
 CREATE GENERATOR GEN_Entregador_ID;
+/*
+  Situação:
+  ---------
+  0 - Disponível;
+  1 - Não Disponível;
+*/
+
 
 -- Criação da tabela OrdemEntrega
 CREATE TABLE OrdemEntrega (

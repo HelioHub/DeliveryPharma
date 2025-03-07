@@ -145,7 +145,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ExplicitLeft = 527
     end
     object BBIncluir: TBitBtn
-      Left = 5
+      Left = 0
       Top = 8
       Width = 63
       Height = 30
@@ -162,6 +162,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
+      OnClick = BBIncluirClick
     end
     object BBAlterar: TBitBtn
       Left = 69

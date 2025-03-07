@@ -21,7 +21,7 @@ implementation
 
 { TEntregadorController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TEntregadorController.Create;
 begin

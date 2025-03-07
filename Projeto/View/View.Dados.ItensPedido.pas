@@ -81,7 +81,7 @@ implementation
 
 {$R *.dfm}
 
-uses View.Consulta.Produtos, CXConst,
+uses View.Consulta.Produtos, Utils.Consts,
      Model.Item, Model.Item.RegraAtacado, Model.Item.RegraVarejo;
 
 constructor TFDadosItensPedido.Create(AOwner: TComponent);

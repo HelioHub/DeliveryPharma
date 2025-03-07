@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/03/07 00:19:29.069,C:\DeliveryPharma\Projeto\PGDeliveryPharma.groupproj=C:\DeliveryPharma\Projeto\ProjectGroupCXPedidos.groupproj</Transaction>
+  </Transactions>
+	<Default.Personality>
+		<Projects ActiveProject="C:\DeliveryPharma\Projeto\ProjectDeliveryPharma.dproj"/>
+	</Default.Personality>
+</BorlandProject>

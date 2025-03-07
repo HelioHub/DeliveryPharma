@@ -12,7 +12,7 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Menus,
   Controller.PedidoController,
   Controller.ItemPedidoController,
-  CXConst, Winapi.ShellAPI, Vcl.ComCtrls;
+  Utils.Consts, Winapi.ShellAPI, Vcl.ComCtrls;
 
 type
   TFViewPedidos = class(TForm)

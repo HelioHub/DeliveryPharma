@@ -25,7 +25,7 @@ implementation
 
 { TPedidoController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TPedidoController.Create;
 begin

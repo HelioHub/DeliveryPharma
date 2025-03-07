@@ -23,7 +23,7 @@ implementation
 
 { TProdutoController }
 
-uses CXConst;
+uses Utils.Consts;
 
 constructor TProdutoController.Create;
 begin

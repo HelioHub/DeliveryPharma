@@ -69,7 +69,7 @@ uses
   FireDAC.DApt, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.MySQL,
-  FireDAC.Phys.MySQLDef, System.SysUtils, Vcl.Dialogs, CXConst;
+  FireDAC.Phys.MySQLDef, System.SysUtils, Vcl.Dialogs, Utils.Consts;
 
 { TProduto }
 
