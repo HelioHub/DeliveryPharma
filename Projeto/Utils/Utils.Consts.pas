@@ -21,6 +21,8 @@ const
   cFour = 4;
   cFive = 5;
   cStatusPendenteOrdemEntrega = 'Pendente';
+  cProcessoSaida = '1';
+  cProcessoRetorno = '2';
 
 implementation
 

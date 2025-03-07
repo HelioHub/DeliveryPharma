@@ -20,6 +20,7 @@ type
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
       pDtIni, pDtFin : TDate; pStatus : Integer);
     function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
+    function SalvarOrdemEmProcesso(pOrdemEntrega, pProcesso: String): Boolean;
   end;
 
 implementation
@@ -48,6 +49,12 @@ end;
 function TOrdemEntregaController.GetOrdemEntrega: IOrdemEntrega;
 begin
   Result := FOrdemEntrega;
+end;
+
+function TOrdemEntregaController.SalvarOrdemEmProcesso(pOrdemEntrega,
+  pProcesso: String): Boolean;
+begin
+  Result := FOrdemEntrega.SalvarOrdemEmProcesso(pOrdemEntrega, pProcesso);
 end;
 
 function TOrdemEntregaController.SalvarOrdemEntrega(AOrdemEntrega: IOrdemEntrega) : Boolean;

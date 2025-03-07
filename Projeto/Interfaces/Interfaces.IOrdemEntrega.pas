@@ -46,6 +46,7 @@ type
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
       pDtIni, pDtFin : TDate; pStatus : Integer);
     function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
+    function SalvarOrdemEmProcesso(pOrdemEntrega, pProcesso: String): Boolean;
   end;
 
 implementation

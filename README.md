@@ -1,44 +1,15 @@
-# Projeto CXPedidos - Cadastro de Pedidos e Clientes - Teste Técnico - Hélio Marques
+# Projeto DeliveryPharma - Teste Técnico - Hélio Marques
 
-Cadastro de Pedidos e Clientes
+Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Agredecimento pela Oportunidade
 
-![## Atenção CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Atencao3.png)
-![## Atenção CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Atencao.png)
-
-## Requisitos Atendidos e feitos + outros recursos.
-
-1-Criar um projeto VCL com um CRUD de clientes 
-
-![## CX1](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Ra1.png)
-
-2-Realizar a integração da seguinte API para consulta de CEP: 
-3-Realizar a integração da seguinte API para consulta de CNPJ:
-4-Realizar a integração da seguinte API para trazer o código do IBGE e informar no cadastro do cliente: 
-8-Realizar a alteração na rotina de consulta CEP para trazer a latitude e longitude: 
-
-![## CX2](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Ra2.png)
-
-5-Salvar os dados e exibir em uma grid e também ter a opção de editar ou excluir o registro da grid
-
-![## CX5](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Ra51.png)
-
-6-Realizar a impressão de todos os registros
-7-Realizar a impressão de registros selecionados
-
-![## CX6](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Ra61.png)
-
-9-As informações podem ser salvar em um banco ou em memoria(Memtable) - (caso for usar banco de teste nos passe o banco para poder testar a aplicação)
-
-![## CX8](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Ra91.png)
-
-10-Enviar o fonte por email ou o link do github com o projeto publico
-	Enviado!! 
+![## Atenção](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Atencao3.png)
+![## Atenção](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Atencao.png)
 
 ## Diagrama de Entidade e Relacionamento 
 
-![## Diagrama de Entidade e Relacionamento CX](https://github.com/HelioHub/cxpedidos/blob/main/BD/EERDiagram.png)
+![## Diagrama de Entidade e Relacionamento CX](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/EERDiagram.png)
 
 ## Arquitetura do Sistema 
 
@@ -59,430 +30,306 @@ Cadastro de Pedidos e Clientes
 
 	Firebird-2.5.9.27139_0_Win32.exe
 	https://www.firebirdsql.org/en/firebird-2-5/
+	user: SYSDBA
+	password: masterkey
 	
 	https://www.ibexpert.net/downloadcenter/
-
-	MySQL Installer 5.7.44
-	https://dev.mysql.com/downloads/installer/
-	root/wk@123
-	Service Name: MySQL57
-	DataBase: WKPedidos
 	
 ## GITHub
 
 	git init
-	git remote add origin git@github.com:HelioHub/cxpedidos.git
+	git remote add origin git@github.com:HelioHub/DeliveryPharma.git
 	git add .
 	git commit -m "Firts commit"
 	git push -u origin main
 	
-## Clean Code
+##  Aplicação do Clean Code
 
 	https://balta.io/artigos/clean-code	
 
 ## Criação do Banco de Dados e Objetos do Banco
 
-	# ==== Projeto WKPedidos === #
-	# ====   Hélio  Marques  === #
+	-- ==== Projeto DBDeliveryPharma === --
+	-- ====   Hélio  Marques  === --
 
-	# ==== Criação do Banco === #
-	#---------------------------#
-	#Create database WKPedidos;
-	#use WKPedidos;
+	-- ==== Criação das tables e indexes === --
 
-	# ==== Criação das tables e indexes === #
-	#---------------------------------------#
-	#DROP TABLE `WKPedidos`.`ItensPedido` cascade;
-	#DROP TABLE `WKPedidos`.`Pedidos` cascade;
-	#DROP TABLE `WKPedidos`.`Clientes` cascade;
-	#DROP TABLE `WKPedidos`.`Produtos` cascade;
+	CONNECT 'C:\DeliveryPharma\BD\dbDeliveryPharma.fdb' USER 'SYSDBA' PASSWORD 'masterkey';
 
-	CREATE TABLE IF NOT EXISTS `WKPedidos`.`Clientes` (
-	  `CodigoClientes` INT NOT NULL AUTO_INCREMENT,
-	  `CNPJClientes` VARCHAR(14) NULL,
-	  `NomeClientes` VARCHAR(80) NULL,
-	  `CEPClientes` VARCHAR(8) NULL,
-	  `RuaClientes` VARCHAR(100) NULL,
-	  `BairroClientes` VARCHAR(50) NULL,
-	  `CidadeClientes` VARCHAR(50) NULL,
-	  `UFClientes` VARCHAR(2) NULL,
-	  `LongitudeClientes` DECIMAL(17,7) NULL,
-	  `LatitudeClientes` DECIMAL(17,7) NULL,
-	  `CodIBGEClientes` VARCHAR(10) NULL,
-	  `NomeFantasiaClientes` VARCHAR(100) NULL,
-	  `SitCadastralClientes` VARCHAR(30) NULL,
-	  `NumeroRuaClientes` INT NULL,
-      PRIMARY KEY (`CodigoClientes`),
-	  INDEX `INDEX_NOME` (`NomeClientes` ASC))
-	ENGINE = InnoDB;
+	SET TRANSACTION;
 
-	CREATE TABLE IF NOT EXISTS `WKPedidos`.`Produtos` (
-	  `CodigoProdutos` INT NOT NULL AUTO_INCREMENT,
-	  `DescricaoProdutos` VARCHAR(80) NULL,
-	  `PrecoVendaProdutos` DECIMAL(17,3) NULL,
-	  PRIMARY KEY (`CodigoProdutos`),
-	  INDEX `INDEX_DESCRICAO` (`DescricaoProdutos` ASC) )
-	ENGINE = InnoDB;
+	-- Drop das tabelas (se existirem)
+	DROP TABLE ItensPedido;
+	DROP GENERATOR GEN_ItensPedido_ID;
+	DROP TABLE PedidosEntrega;
+	DROP GENERATOR GEN_PedidosEntrega_ID;
+	DROP TABLE OrdemEntrega;
+	DROP GENERATOR GEN_OrdemEntrega_ID;
+	DROP TABLE Produtos;
+	DROP GENERATOR GEN_Produtos_ID;
+	DROP TABLE Pedidos;
+	DROP GENERATOR GEN_Pedidos_ID;
+	DROP TABLE Clientes;
+	DROP GENERATOR GEN_Clientes_ID;
+	DROP TABLE TipoProduto;
+	DROP GENERATOR GEN_TipoProduto_ID;
+	DROP TABLE Entregador;
+	DROP GENERATOR GEN_Entregador_ID;
 
-	CREATE TABLE IF NOT EXISTS `WKPedidos`.`Pedidos` (
-	  `NumeroPedidos` INT NOT NULL AUTO_INCREMENT,
-	  `DataEmissaoPedidos` DATETIME NULL,
-	  `ClientePedidos` INT NULL,
-	  `ValorTotalPedidos` DECIMAL(17,3) NULL,
-	  PRIMARY KEY (`NumeroPedidos`),
-	  INDEX `FK_CLIENTE_idx` (`ClientePedidos` ASC),
-	  INDEX `INDEX_DATAEMISSAO` (`DataEmissaoPedidos` ASC),
-	  CONSTRAINT `FK_CLIENTE`
-		FOREIGN KEY (`ClientePedidos`)
-		REFERENCES `WKPedidos`.`Clientes` (`CodigoClientes`)
+	-- Criação da tabela Clientes
+	CREATE TABLE Clientes (
+	  CodigoClientes INTEGER NOT NULL PRIMARY KEY,
+	  CNPJClientes VARCHAR(14),
+	  NomeClientes VARCHAR(80),
+	  CEPClientes VARCHAR(8),
+	  RuaClientes VARCHAR(100),
+	  BairroClientes VARCHAR(50),
+	  CidadeClientes VARCHAR(50),
+	  UFClientes VARCHAR(2),
+	  LongitudeClientes DECIMAL(17,7),
+	  LatitudeClientes DECIMAL(17,7),
+	  CodIBGEClientes VARCHAR(10),
+	  NomeFantasiaClientes VARCHAR(100),
+	  SitCadastralClientes VARCHAR(30),
+	  NumeroRuaClientes INTEGER
+	);
+	CREATE GENERATOR GEN_Clientes_ID;
+	CREATE INDEX INDEX_NOME ON Clientes (NomeClientes);
+
+	-- Criação da tabela TipoProduto
+	CREATE TABLE TipoProduto (
+	  idTipoProduto INTEGER NOT NULL PRIMARY KEY,
+	  DescricaoTipoProduto VARCHAR(50),
+	  PrioridadeTipoProduto SMALLINT DEFAULT 9 CHECK (PrioridadeTipoProduto IN (1,2,3,4,5,6,7,8,9)),   
+	  PrescricaoTipoProduto SMALLINT DEFAULT 0 CHECK (PrescricaoTipoProduto IN (0, 1)),   
+	  CuidadosTipoProduto SMALLINT DEFAULT 0 CHECK (CuidadosTipoProduto IN (0, 1)),   
+	  DataValidadeTipoProduto SMALLINT DEFAULT 0 CHECK (DataValidadeTipoProduto IN (0, 1))   
+	);
+	CREATE GENERATOR GEN_TipoProduto_ID;
+	/*
+	  Prioridade na Entrega + Data da Ordem
+	  ----------------------------------------------
+	  PrioridadeTipoProduto - {1-Primeira, 2-Segunda, 3-Terceira, ..., 9-Normal};
+
+	  Produto tem ou não a definição do Campo:
+	  ----------------------------------------------
+	  PrescricaoTipoProduto - {0-Não/1-Sim};
+	  CuidadosTipoProduto   - {0-Não/1-Sim};
+	  DataValidadeTipoProduto - {0-Não/1-Sim};
+	*/
+
+	-- Criação da tabela Produtos 
+	CREATE TABLE Produtos (
+	  idProdutos INTEGER NOT NULL PRIMARY KEY,
+	  TipoProdutoProdutos INTEGER NOT NULL,
+	  CodigoProdutos VARCHAR(10),
+	  DescricaoProdutos VARCHAR(80),
+	  QuantidadeProdutos DECIMAL(17,3),
+	  UndProdutos VARCHAR(3),
+	  PrecoVendaProdutos DECIMAL(17,3),
+	  PrescricaoProdutos VARCHAR(400),
+	  CuidadosArmProdutos VARCHAR(400),
+	  DataValidadeProdutos DATE,
+	  CONSTRAINT FK_TipoProduto FOREIGN KEY (TipoProdutoProdutos)
+		REFERENCES TipoProduto (idTipoProduto)
 		ON DELETE NO ACTION
-		ON UPDATE NO ACTION)
-	ENGINE = InnoDB;	
+		ON UPDATE NO ACTION
+	);
+	CREATE GENERATOR GEN_Produtos_ID;
+	CREATE INDEX INDEX_DESCRICAO ON Produtos (DescricaoProdutos);
+	CREATE INDEX FK_TIPOPRODUTO_idx ON Produtos (TipoProdutoProdutos);
 
-	CREATE TABLE IF NOT EXISTS `WKPedidos`.`ItensPedido` (
-	  `idItensPedido` INT NOT NULL AUTO_INCREMENT,
-	  `PedidoItensPedido` INT NULL,
-	  `ProdutoItensPedido` INT NULL,
-	  `QuantidadeItensPedido` DECIMAL(10,2) NULL,
-	  `VlrUnitarioItensPedido` DECIMAL(17,3) NULL,
-	  `VlrTotalItensPedido` DECIMAL(17,3) NULL,
-	  PRIMARY KEY (`idItensPedido`),
-	  INDEX `FK_PEDIDO_idx` (`PedidoItensPedido` ASC),
-	  INDEX `FK_PRODUTO_idx` (`ProdutoItensPedido` ASC),
-	  CONSTRAINT `FK_PEDIDO`
-		FOREIGN KEY (`PedidoItensPedido`)
-		REFERENCES `WKPedidos`.`Pedidos` (`NumeroPedidos`)
+	-- Criação da tabela Pedidos
+	CREATE TABLE Pedidos (
+	  NumeroPedidos INTEGER NOT NULL PRIMARY KEY,
+	  DataEmissaoPedidos TIMESTAMP,
+	  ClientePedidos INTEGER,
+	  ValorTotalPedidos DECIMAL(17,3),
+	  StatusPedidos SMALLINT DEFAULT 0 CHECK (StatusPedidos IN (0, 1)),
+	  CONSTRAINT FK_CLIENTE FOREIGN KEY (ClientePedidos)
+		REFERENCES Clientes (CodigoClientes)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+	);
+	CREATE GENERATOR GEN_Pedidos_ID;
+	CREATE INDEX FK_CLIENTE_idx ON Pedidos (ClientePedidos);
+	CREATE INDEX INDEX_DATAEMISSAO ON Pedidos (DataEmissaoPedidos);
+	/*
+	  StatusPedidos:
+	  --------------
+	  0 - Em Aberto;
+	  1 - Fechado;
+	*/
+
+	-- Criação da tabela ItensPedido
+	CREATE TABLE ItensPedido (
+	  idItensPedido INTEGER NOT NULL PRIMARY KEY,
+	  PedidoItensPedido INTEGER,
+	  ProdutoItensPedido INTEGER,
+	  QuantidadeItensPedido DECIMAL(10,2),
+	  VlrUnitarioItensPedido DECIMAL(17,3),
+	  VlrTotalItensPedido DECIMAL(17,3),
+	  CONSTRAINT FK_PEDIDO FOREIGN KEY (PedidoItensPedido)
+		REFERENCES Pedidos (NumeroPedidos)
 		ON DELETE CASCADE
 		ON UPDATE NO ACTION,
-	  CONSTRAINT `FK_PRODUTO`
-		FOREIGN KEY (`ProdutoItensPedido`)
-		REFERENCES `WKPedidos`.`Produtos` (`CodigoProdutos`)
+	  CONSTRAINT FK_PRODUTO FOREIGN KEY (ProdutoItensPedido)
+		REFERENCES Produtos (idProdutos)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION)
-	ENGINE = InnoDB;
+		ON UPDATE NO ACTION
+	);
+	CREATE GENERATOR GEN_ItensPedido_ID;
+	CREATE INDEX FK_PEDIDO_idx ON ItensPedido (PedidoItensPedido);
+	CREATE INDEX FK_PRODUTO_idx ON ItensPedido (ProdutoItensPedido);
 
-	#PRODUTOS#
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Mouse', '15');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Monitor 14p', '200');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'CPU Intel i5', '2000');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Teclado', '25');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Mãe X', '500');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Mãe Y', '600');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Mãe W', '700');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Vídeo X', '300');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Vídeo Y', '400');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Placa-Vídeo W', '500');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Processador i3', '600');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Processador i5', '800');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Processador i9', '1000');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'CPU i3', '1000');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'CPU i9', '2000');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Gabinete X', '90');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Gabinete Y', '100');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Gabinete W', '110');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Camera HD', '100');
-	INSERT INTO `wkpedidos`.`produtos` ( `DescricaoProdutos`, `PrecoVendaProdutos`) VALUES ( 'Pad-Mouse', '5.5');
+	-- Criação da tabela Entregador
+	CREATE TABLE Entregador (
+	  idEntregador INTEGER NOT NULL PRIMARY KEY,
+	  NomeEntregador VARCHAR(50),
+	  SituacaoEntregador SMALLINT DEFAULT 0
+	);
+	CREATE GENERATOR GEN_Entregador_ID;
+	/*
+	  Situação:
+	  ---------
+	  0 - Disponível;
+	  1 - Não Disponível;
+	*/
 
-## Sugestões para otimizar o Banco de dados MySQL WKPedidos:
 
-   Com Índices já Existentes, com Índices Adicionais e com Consultas SQL performáticas. 
-   Considerando boas práticas e para melhorar o desempenho das consultas.
+	-- Criação da tabela OrdemEntrega
+	CREATE TABLE OrdemEntrega (
+	  idOrdemEntrega INTEGER NOT NULL PRIMARY KEY,
+	  EntregadorOrdenEntrega INTEGER NOT NULL,
+	  EmissaoOrdemEntrega TIMESTAMP,
+	  SaidaOrdemEntrega TIMESTAMP,
+	  ChegadaOrdemEntrega TIMESTAMP,
+	  StatusOrdemEntrega SMALLINT DEFAULT 0 CHECK (StatusOrdemEntrega IN (0, 1, 2, 3)),
+	  OBSOrdemEntrega VARCHAR(1000),
+	  CONSTRAINT fk_OrdemEntrega_Entregador FOREIGN KEY (EntregadorOrdenEntrega)
+		REFERENCES Entregador (idEntregador)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+	);
+	CREATE GENERATOR GEN_OrdemEntrega_ID;
+	CREATE INDEX FK_ENTREGADORORDEMENTREGA_idx ON OrdemEntrega (EntregadorOrdenEntrega);
+	/*
+	  Status:
+	  -------
+	  0 - Pendente;
+	  1 - Em Andamento;
+	  2 - Entregue Total;
+	  3 - Entregue Parcial;
+	*/
 
-	1. Índices Sugeridos
-	#-----------------------------------#
-		Tabela Clientes
-		Índice composto para consultas por cidade e estado:
-			CREATE INDEX `INDEX_CIDADE_UF` ON `WKPedidos`.`Clientes` 
-			  (`CidadeClientes` ASC, `UFClientes` ASC);
 
-		Tabela Produtos
-		Índice para consultas por preço:
-			CREATE INDEX `INDEX_PRECO` ON `WKPedidos`.`Produtos` 
-			  (`PrecoVendaProdutos` ASC);
+	-- Criação da tabela PedidosEntrega
+	CREATE TABLE PedidosEntrega (
+	  idPedidosEntrega INTEGER NOT NULL PRIMARY KEY,
+	  PedidoPedidosEntrega INTEGER NOT NULL,
+	  OrdemEntregaPedidosEntrega INTEGER NOT NULL,
+	  StatusPedidosEntrega SMALLINT DEFAULT 0 CHECK (StatusPedidosEntrega IN (0, 1, 2, 3)),
+	  OBSPedidosEntrega VARCHAR(1000),
+	  CONSTRAINT fk_PedidosEntrega_Pedidos FOREIGN KEY (PedidoPedidosEntrega)
+		REFERENCES Pedidos (NumeroPedidos)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+	  CONSTRAINT fk_PedidosEntrega_OrdemEntrega FOREIGN KEY (OrdemEntregaPedidosEntrega)
+		REFERENCES OrdemEntrega (idOrdemEntrega)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+	);
+	CREATE GENERATOR GEN_PedidosEntrega_ID;
+	CREATE INDEX FK_PEDIDOS_idx ON PedidosEntrega (PedidoPedidosEntrega);
+	CREATE INDEX FK_ORDEMENTREGA_idx ON PedidosEntrega (OrdemEntregaPedidosEntrega);
+	/*
+	  Status:
+	  -------
+	  0 - Pendente;
+	  1 - Em Andamento;
+	  2 - Entregue;
+	  3 - Não Entregue/Cancelado
+	*/
 
-		Tabela Pedidos
-		Índice para consultas por data de emissão:
-			CREATE INDEX `INDEX_DATA_EMISSAO` ON `WKPedidos`.`Pedidos` 
-			  (`DataEmissaoPedidos` ASC);
+	--DELETE FROM Clientes;
+	--DELETE FROM TipoProduto;
+	--DELETE FROM Produtos;
+	--DELETE FROM Entregador;
 
-		Tabela ItensPedido
-		Índice composto para consultas por pedido e produto:
-			CREATE INDEX `INDEX_PEDIDO_PRODUTO` ON `WKPedidos`.`ItensPedido` 
-			  (`PedidoItensPedido` ASC, `ProdutoItensPedido` ASC);
-		  
-	2. Consultas SQL Performáticas
-	#-----------------------------------#
-		Aqui estão exemplos de consultas SQL otimizadas para acessar os dados:
+	-- Clientes
+	INSERT INTO CLIENTES (CODIGOCLIENTES, CNPJCLIENTES, NOMECLIENTES, CEPCLIENTES, RUACLIENTES, BAIRROCLIENTES, CIDADECLIENTES, UFCLIENTES, LONGITUDECLIENTES, LATITUDECLIENTES, CODIBGECLIENTES, NOMEFANTASIACLIENTES, SITCADASTRALCLIENTES, NUMERORUACLIENTES)
+	VALUES (GEN_ID(GEN_Clientes_ID, 1), '14796606000190', 'ADYEN DO BRASIL INSTITUICAO DE PAGAMENTO LTDA.', '60744325', 'Rua Shirley Girao', 'Passare', 'Fortaleza', 'CE', 0, 0, '2304400', 'ADYEN LATIN AMERICA', 'ATIVA', 571);
+	INSERT INTO CLIENTES (CODIGOCLIENTES, CNPJCLIENTES, NOMECLIENTES, CEPCLIENTES, RUACLIENTES, BAIRROCLIENTES, CIDADECLIENTES, UFCLIENTES, LONGITUDECLIENTES, LATITUDECLIENTES, CODIBGECLIENTES, NOMEFANTASIACLIENTES, SITCADASTRALCLIENTES, NUMERORUACLIENTES)
+	VALUES (GEN_ID(GEN_Clientes_ID, 1), '12345678000195', 'ROBERIO JOSE DOS SANTOS 16952477870', '60744320', 'Rua 4', 'Passare', 'Fortaleza', 'CE', 0, 0, '2304400', '', 'BAIXADA', 20);
+	INSERT INTO CLIENTES (CODIGOCLIENTES, CNPJCLIENTES, NOMECLIENTES, CEPCLIENTES, RUACLIENTES, BAIRROCLIENTES, CIDADECLIENTES, UFCLIENTES, LONGITUDECLIENTES, LATITUDECLIENTES, CODIBGECLIENTES, NOMEFANTASIACLIENTES, SITCADASTRALCLIENTES, NUMERORUACLIENTES)
+	VALUES (GEN_ID(GEN_Clientes_ID, 1), '09346601000125', 'B3 S.A. - BRASIL, BOLSA, BALCAO', '60744330', 'Rua 5', 'Passare', 'Fortaleza', 'CE', 0, 0, '2304400', 'B3 S.A. BRASIL, BOLSA, BALCAO', 'ATIVA', 2);
 
-		Consulta 1: Listar todos os pedidos de um cliente
-			SELECT 
-				p.NumeroPedidos, 
-				p.DataEmissaoPedidos, 
-				p.ValorTotalPedidos, 
-				c.NomeClientes 
-			FROM 
-				WKPedidos.Pedidos p
-			JOIN 
-				WKPedidos.Clientes c ON p.ClientePedidos = c.CodigoClientes
-			WHERE 
-				c.CodigoClientes = ?;
-			Índices utilizados:
-				FK_CLIENTE (já existe na tabela Pedidos).
-				INDEX_NOME (já existe na tabela Clientes).
+	-- Tipo de Produto
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'MEDICAMENTOS SENSIVEIS', 1, 1, 1, 1);
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'MEDICAMENTOS CONTROLADOS', 2, 1, 1, 1);
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'MEDICAMENTOS COMUNS', 9, 0, 0, 1);
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'COSMETICOS', 9, 0, 0, 1);
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'PRODUTOS GERAIS', 9, 0, 0, 0);
+	INSERT INTO TIPOPRODUTO (IDTIPOPRODUTO, DESCRICAOTIPOPRODUTO, PRIORIDADETIPOPRODUTO, PRESCRICAOTIPOPRODUTO, CUIDADOSTIPOPRODUTO, DATAVALIDADETIPOPRODUTO)
+	VALUES (GEN_ID(GEN_TipoProduto_ID, 1), 'PRODUTOS GERAIS PERECIVEIS', 9, 0, 0, 1);
 
-		Consulta 2: Listar todos os itens de um pedido
-			SELECT 
-				ip.idItensPedido, 
-				ip.QuantidadeItensPedido, 
-				ip.VlrUnitarioItensPedido, 
-				ip.VlrTotalItensPedido, 
-				pr.DescricaoProdutos 
-			FROM 
-				WKPedidos.ItensPedido ip
-			JOIN 
-				WKPedidos.Produtos pr ON ip.ProdutoItensPedido = pr.CodigoProdutos
-			WHERE 
-				ip.PedidoItensPedido = ?;
-			Índices utilizados:
-				FK_PEDIDO (já existe na tabela ItensPedido).
-				INDEX_DESCRICAO (já existe na tabela Produtos).
+	-- Produtos
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS)
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS COMUNS'), 'MED001', 'Paracetamol', 50, 'Und', 10, '', '', '2024-06-30');
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS)
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS COMUNS'), 'MED002', 'Dipirona', 30, 'Und', 11, '', '', '2023-12-15');
 
-		Consulta 3: Listar todos os pedidos emitidos em um período
-			SELECT 
-				p.NumeroPedidos, 
-				p.DataEmissaoPedidos, 
-				p.ValorTotalPedidos, 
-				c.NomeClientes 
-			FROM 
-				WKPedidos.Pedidos p
-			JOIN 
-				WKPedidos.Clientes c ON p.ClientePedidos = c.CodigoClientes
-			WHERE 
-				p.DataEmissaoPedidos BETWEEN ? AND ?;
-			Índices utilizados:
-				INDEX_DATA_EMISSAO (sugerido acima).
-				FK_CLIENTE (já existe na tabela Pedidos).
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS CONTROLADOS'), 'MED003', 'Rivotril', 10, 'Und', 20, '', '', '2023-09-20');
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS CONTROLADOS'), 'MED003', 'Ritalina', 20, 'Und', 21, '', '', '2024-03-31');
 
-		Consulta 4: Listar os produtos mais vendidos
-			SELECT 
-				pr.DescricaoProdutos, 
-				SUM(ip.QuantidadeItensPedido) AS TotalVendido 
-			FROM 
-				WKPedidos.ItensPedido ip
-			JOIN 
-				WKPedidos.Produtos pr ON ip.ProdutoItensPedido = pr.CodigoProdutos
-			GROUP BY 
-				pr.DescricaoProdutos
-			ORDER BY 
-				TotalVendido DESC;
-			Índices utilizados:
-				FK_PRODUTO (já existe na tabela ItensPedido).
-				INDEX_DESCRICAO (já existe na tabela Produtos).
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS SENSIVEIS'), 'MED005', 'Insulina', 5, 'Fra', 30, '', 'Refrigerado entre 2°C e 8°C', '2023-10-31');
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'MEDICAMENTOS SENSIVEIS'), 'MED006', 'Vacina da COVID-19', 50, 'Dos', 31, '', 'Congelado a -20°C', '2023-11-30');
 
-		Consulta 5: Listar clientes de uma cidade e estado
-			SELECT 
-				CodigoClientes, 
-				NomeClientes 
-			FROM 
-				WKPedidos.Clientes
-			WHERE 
-				CidadeClientes = ? AND UFClientes = ?;
-			Índices utilizados:
-				INDEX_CIDADE_UF (sugerido acima).	  
-			
-	3. Boas Práticas
-	#-----------------------------------#
-		Usar JOIN ao invés de subconsultas:
-			Sempre que possível, prefirir JOIN para unir tabelas, pois é mais eficiente do que subconsultas.
-			
-		Evitar SELECT *:
-			Liste apenas as colunas necessárias para reduzir a quantidade de dados processados.
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'COSMETICOS'), 'COS001', 'Creme Hidratante', 20, 'Und', 40, '', '', '2024-02-28');
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'COSMETICOS'), 'COS002', 'Perfume Feminino', 15, 'Und', 41, '', '', '2025-06-30');
 
-		Use LIMIT em consultas grandes:
-			Se a consulta retornar muitos registros, usar LIMIT para paginar os resultados.
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'PRODUTOS GERAIS PERECIVEIS'), 'PER001', 'Suplemento de Colageno', 30, 'Und', 50, '', '', '2023-08-31');
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'PRODUTOS GERAIS PERECIVEIS'), 'PER002', 'Leite Infantil', 25, 'Und', 51, '', '', '2023-10-15');
 
-		Mantenha os índices atualizados:
-			Executar ANALYZE TABLE periodicamente para atualizar as estatísticas dos índices.
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'PRODUTOS GERAIS'), 'NPER001', 'Pasta de Dente', 50, 'Und', 60, '', '', NULL);
+	INSERT INTO PRODUTOS (IDPRODUTOS, TIPOPRODUTOPRODUTOS, CODIGOPRODUTOS, DESCRICAOPRODUTOS, QUANTIDADEPRODUTOS, UNDPRODUTOS, PRECOVENDAPRODUTOS, PRESCRICAOPRODUTOS, CUIDADOSARMPRODUTOS, DATAVALIDADEPRODUTOS) 
+	VALUES (GEN_ID(GEN_Produtos_ID, 1), (select a.idtipoproduto from TipoProduto a where a.descricaotipoproduto = 'PRODUTOS GERAIS'), 'NPER002', 'Shampoo', 40, 'Und', 61, '', '', NULL);
 
-		Considere particionamento de tabelas:
-			Para tabelas muito grandes (ex: Pedidos), considerar particionar por data ou outro critério relevante		
-				Exemplo de particionamento por intervalo (RANGE):
-				#-----------------------------------------------#
-				Particionar a tabela Pedidos por ano de emissão (DataEmissaoPedidos):
+	-- Entregadores
+	INSERT INTO ENTREGADOR (IDENTREGADOR, NOMEENTREGADOR, SITUACAOENTREGADOR) VALUES (GEN_ID(GEN_Entregador_ID, 1), 'Paulo Cesar', 0);
+	INSERT INTO ENTREGADOR (IDENTREGADOR, NOMEENTREGADOR, SITUACAOENTREGADOR) VALUES (GEN_ID(GEN_Entregador_ID, 1), 'Henrique Jose', 0);
+	INSERT INTO ENTREGADOR (IDENTREGADOR, NOMEENTREGADOR, SITUACAOENTREGADOR) VALUES (GEN_ID(GEN_Entregador_ID, 1), 'João Pharma', 0);
 
-				Passo 1: Criar a tabela particionada
-					CREATE TABLE WKPedidos.Pedidos (
-						NumeroPedidos INT NOT NULL AUTO_INCREMENT,
-						DataEmissaoPedidos DATETIME NOT NULL,
-						ClientePedidos INT NOT NULL,
-						ValorTotalPedidos DECIMAL(17,3) NOT NULL,
-						PRIMARY KEY (NumeroPedidos, DataEmissaoPedidos), -- Chave primária composta
-						INDEX FK_CLIENTE_idx (ClientePedidos ASC),
-						CONSTRAINT FK_CLIENTE
-							FOREIGN KEY (ClientePedidos)
-							REFERENCES WKPedidos.Clientes (CodigoClientes)
-							ON DELETE NO ACTION
-							ON UPDATE NO ACTION
-					)
-					PARTITION BY RANGE (YEAR(DataEmissaoPedidos)) (
-						PARTITION p2020 VALUES LESS THAN (2021),
-						PARTITION p2021 VALUES LESS THAN (2022),
-						PARTITION p2022 VALUES LESS THAN (2023),
-						PARTITION p2023 VALUES LESS THAN (2024),
-						PARTITION pFuture VALUES LESS THAN MAXVALUE
-					);
-				Explicação:
-					A tabela é particionada por ano (YEAR(DataEmissaoPedidos)).
-					Cada partição contém os pedidos de um ano específico.
-					A partição pFuture armazena pedidos com datas superiores a 2023.
-				Quando usar particionamento?
-					Tabelas muito grandes: Quando a tabela tem milhões de registros.
-					Consultas com filtros específicos: Quando as consultas frequentemente filtram por uma coluna (ex: data, região).
-					Necessidade de manutenção granular: Quando você precisa gerenciar partes específicas dos dados (ex: excluir dados antigos).
-				Limitações:
-					Chave primária: A coluna usada no particionamento deve fazer parte da chave primária.
-					Índices globais: Índices que abrangem todas as partições podem ser menos eficientes.
-					Complexidade: O particionamento aumenta a complexidade do banco de dados.
+	-- Confirma as alterações
+	COMMIT;
 
-	4. Exemplo de Consulta com Paginação
-	#-----------------------------------#
-		Aqui está um exemplo de consulta paginada para listar pedidos:
-			SELECT 
-				p.NumeroPedidos, 
-				p.DataEmissaoPedidos, 
-				p.ValorTotalPedidos, 
-				c.NomeClientes 
-			FROM 
-				WKPedidos.Pedidos p
-			JOIN 
-				WKPedidos.Clientes c ON p.ClientePedidos = c.CodigoClientes
-			ORDER BY 
-				p.DataEmissaoPedidos DESC
-			LIMIT 10 OFFSET 0; -- Página 1 (10 primeiros registros)
-			Índices utilizados:
-				INDEX_DATA_EMISSAO (sugerido acima).
-				FK_CLIENTE (já existe na tabela Pedidos).
-				
-	5. Exemplo de Consulta com Filtro Composto
-	#-----------------------------------#
-		Aqui está um exemplo de consulta com filtro composto (cidade e estado):
-			SELECT 
-				CodigoClientes, 
-				NomeClientes 
-			FROM 
-				WKPedidos.Clientes
-			WHERE 
-				CidadeClientes = 'São Paulo' AND UFClientes = 'SP';			
-			Índices utilizados:
-				INDEX_CIDADE_UF (sugerido acima).
+## DUMP do Banco de Dados FireBird 2.5
 
-	6. Exemplo de Consulta com Agregação
-	#-----------------------------------#
-		Aqui está um exemplo de consulta agregada para calcular o valor total de pedidos por cliente:
-			SELECT 
-				c.NomeClientes, 
-				SUM(p.ValorTotalPedidos) AS TotalPedidos 
-			FROM 
-				WKPedidos.Pedidos p
-			JOIN 
-				WKPedidos.Clientes c ON p.ClientePedidos = c.CodigoClientes
-			GROUP BY 
-				c.NomeClientes
-			ORDER BY 
-				TotalPedidos DESC;
-			Índices utilizados:
-				FK_CLIENTE (já existe na tabela Pedidos).
-				INDEX_NOME (já existe na tabela Clientes).
+   Encontra-se na pasta C:\<PROJETO>\DUMP
 
-	7. Conceito de Páginação LIMIT e OFFSET no SELECT
-	#-----------------------------------#
-		A combinação de LIMIT e OFFSET é usada para dividir os resultados em "páginas". Por exemplo:
-
-		Página 1:
-			SELECT * FROM WKPedidos.Pedidos LIMIT 10 OFFSET 0;
-			Retorna os registros 1 a 10.
-		Página 2:
-			SELECT * FROM WKPedidos.Pedidos LIMIT 10 OFFSET 10;
-			Retorna os registros 11 a 20.
-		Página 3:
-			SELECT * FROM WKPedidos.Pedidos LIMIT 10 OFFSET 20;
-			Retorna os registros 21 a 30.
-			
-		Quando usar LIMIT e OFFSET?
-			Paginação de resultados: Para exibir resultados em páginas (ex: 10 registros por página).
-			Consultas grandes: Para evitar retornar muitos registros de uma só vez, o que pode sobrecarregar a aplicação ou o banco de dados.
-			Testes rápidos: Para verificar rapidamente um subconjunto de dados.
-
-		Cuidados ao usar OFFSET:
-			Desempenho: Em tabelas muito grandes, o OFFSET pode ser lento, pois o banco de dados precisa "pular" os registros anteriores antes de retornar os resultados.
-			Alternativa: Para melhorar o desempenho em grandes conjuntos de dados, considere usar uma coluna de referência (ex: id ou data) para paginar os resultados, em vez de OFFSET.
-
-## Connection FIREDAC com MySQL 
-	
-	O FireDac do Delphi 12 32bits só funciona com MySQL 5.7.44 32 bits, DLL específica:
-	.\DLL\libmysql.dll
-	
-	================================
-	definition parameters
-	================================
-	Port=3306
-	Database=wkpedidos
-	User_Name=root
-	Password=*****
-	Server=localhost
-	DriverID=MySQL
-	Name=WKConnection
-	================================
-	FireDAC info
-	================================
-	Tool = RAD Studio 12
-	FireDAC = 29.0.51961.7529
-	Platform = Windows 32 bit
-	Defines = FireDAC_NOLOCALE_META;FireDAC_MONITOR;
-	  FireDAC_SynEdit
-	================================
-	Client info
-	================================
-	Loading driver MySQL ...
-	DLL = C:\program files (x86)\embarcadero\studio\23.0\bin\libmysql.dll
-	Client version = 500270000
-	================================
-	Session info
-	================================
-	Checking session ...
-	  Warning: The client [5.0.27.0.0] version or less does not support multiple result sets or output parameters of prepared statement.
-	Current catalog = 
-	Current schema = 
-	Server info = 5.7.44-log
-	Client info = 5.0.27
-	Characterset name = latin1
-	Host info = localhost via TCP/IP
-	Name modes = CILCTD
-	SSL Cipher = 
-
-## O componente TIdHTTP usa a biblioteca OpenSSL
-
-   Para conexão da API Brasil estou usando a biblioteca Indy e para carregar as bibliotecas SSL 
-   necessárias para fazer requisições HTTPS é importante ter as as DLLs do OpenSSL no
-   PATH do sistema ou no diretório do executável
-
-   Estão no Projeto na pasta .\DDL
-	libeay32.dll
-	ssleay32.dll
-
-## DUMP do Banco de Dados MySQL
-
-   Estão no Projeto na pasta .\DUMP
-
-## Feito gráficos na Aplicação em HTML/CSS/JS
+## Feito gráficos na Aplicação em HTML/CSS/JS do Pedido
 
     De Barra
-![## Gráficos CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Grafico1.png)
-![## Gráficos CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/Grafico2.png)
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Grafico1.png)
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Grafico2.png)
 
 	De Pizza
-![## Gráficos CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/GraficoPizza1.png)
-![## Gráficos CX](https://github.com/HelioHub/cxpedidos/blob/main/Imagens/GraficoPizza2.png)
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza1.png)
+![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza2.png)
 
 
 

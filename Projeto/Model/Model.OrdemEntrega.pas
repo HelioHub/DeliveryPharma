@@ -56,6 +56,7 @@ type
     function Salvar: Boolean; // Implementação do método Salvar
     function Excluir(const AId: Integer): Boolean; // Implementação do método Excluir
     function GerarOrdemEntregaHTML(const pOrdemEntrega: String): string;
+    function SalvarOrdemEmProcesso(pOrdemEntrega, pProcesso: String): Boolean;
 
     procedure CarregarDados(const AFDMemTable: TFDMemTable;
       pidOrdemEntrega, pNomeEntregador, pLimite: String;
@@ -211,13 +212,6 @@ begin
                         'WHERE idOrdemEntrega = :Id');
 
         FQuery.ParamByName('Id').AsInteger := FIdOrdemEntrega;
-
-        { Reponsabilidade para outro método:
-          'SaidaOrdemEntrega = :Saida, ' +
-          'ChegadaOrdemEntrega = :Chegada, ' +
-          FQuery.ParamByName('Saida').Value := FSaidaOrdemEntrega;
-          FQuery.ParamByName('Chegada').Value := FChegadaOrdemEntrega;
-        }
       end;
 
       // Define os parâmetros da query
@@ -253,6 +247,61 @@ begin
     Logger.Free;
   end;
 end;
+
+
+function TOrdemEntrega.SalvarOrdemEmProcesso(pOrdemEntrega, pProcesso: String): Boolean;
+var
+  Logger: TErrorLogger;
+begin
+  Result := False;
+  Logger := TErrorLogger.Create; // Usa o caminho padrão 'error.log'
+  try
+
+    FDatabaseConnection.Connection.StartTransaction;
+    try
+      FQuery.SQL.Clear;
+      if pProcesso = cProcessoSaida then
+        FQuery.SQL.Add( 'UPDATE OrdemEntrega SET ' +
+                        'SaidaOrdemEntrega = :DataNow, ' +
+                        'StatusOrdemEntrega = :Status ' +
+                        'WHERE idOrdemEntrega = :Id')
+      else
+        FQuery.SQL.Add( 'UPDATE OrdemEntrega SET ' +
+                        'ChegadaOrdemEntrega = :DataNow, ' +
+                        'StatusOrdemEntrega = :Status ' +
+                        'WHERE idOrdemEntrega = :Id');
+
+      FQuery.ParamByName('DataNow').Value := Now;
+      FQuery.ParamByName('Id').AsString := pOrdemEntrega;
+      FQuery.ParamByName('Status').Value := pProcesso;
+      FQuery.ExecSQL;
+
+
+      FQuery.SQL.Clear;
+      FQuery.SQL.Add( 'UPDATE Pedidos SET ' +
+                      'StatusPedidos = :Status ' +
+                      'WHERE NumeroPedidos in (SELECT PedidoPedidosEntrega FROM PedidosEntrega WHERE OrdemEntregaPedidosEntrega = :Id) ');
+      FQuery.ParamByName('Id').AsString := pOrdemEntrega;
+      FQuery.ParamByName('Status').Value := 1;
+      FQuery.ExecSQL;
+
+      FDatabaseConnection.Connection.Commit;
+      Result := True; // Indica que foi salvo com sucesso
+    except
+      on E: Exception do
+      begin
+        FDatabaseConnection.Connection.Rollback;
+        Logger.LogError(E);
+        raise Exception.Create('Erro ao salvar Ordem de Entrega: ' + E.Message);
+      end;
+    end;
+
+  finally
+    Logger.Free;
+  end;
+end;
+
+
 
 procedure TOrdemEntrega.CarregarDados(const AFDMemTable: TFDMemTable;
   pidOrdemEntrega, pNomeEntregador, pLimite: String;

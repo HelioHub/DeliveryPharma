@@ -288,6 +288,7 @@ object FViewOrdemEntrega: TFViewOrdemEntrega
       ParentShowHint = False
       ShowHint = True
       TabOrder = 6
+      OnClick = BitBtn1Click
     end
   end
   object PFiltrar: TPanel

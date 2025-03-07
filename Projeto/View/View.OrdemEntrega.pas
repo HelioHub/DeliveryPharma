@@ -73,6 +73,7 @@ type
     procedure SBClearNomeClienteClick(Sender: TObject);
     procedure DSViewOrdensDataChange(Sender: TObject; Field: TField);
     procedure BBOrdensClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
     FOrdemEntregaController: TOrdemEntregaController;
@@ -129,6 +130,14 @@ begin
     ShowMessage('Sem Ordem de Entrega Selecionada!');
     Exit;
   end;
+  if (DSViewOrdens.DataSet.FieldByName('StatusOrdemEntrega').AsInteger > cZero) then
+  begin
+    beep;
+    ShowMessage('Ordem de Entrega já Enviada!');
+    Exit;
+  end;
+  Beep;
+  ShowMessage('Atenção!! Após o Envio o Pedido não será mais permitido Alterar');
 
   HTML := FOrdemEntregaController.GerarOrdemEntregaHTML(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString);
 
@@ -144,12 +153,26 @@ begin
 
   // Abre o arquivo no navegador padrão
   ShellExecute(0, 'open', PChar(FileName), nil, nil, SW_SHOWNORMAL);
+
+  FOrdemEntregaController.SalvarOrdemEmProcesso(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString, cProcessoSaida);
 end;
 
 procedure TFViewOrdemEntrega.BBSairClick(Sender: TObject);
 begin
   DSViewOrdens.DataSet.Close;
   Close;
+end;
+
+procedure TFViewOrdemEntrega.BitBtn1Click(Sender: TObject);
+begin
+  if (DSViewOrdens.DataSet.FieldByName('StatusOrdemEntrega').AsInteger > cZero+1) then
+  begin
+    beep;
+    ShowMessage('Ordem de Entrega já Retornada!');
+    Exit;
+  end;
+
+  FOrdemEntregaController.SalvarOrdemEmProcesso(DSViewOrdens.DataSet.FieldByName('idOrdemEntrega').AsString, cProcessoRetorno);
 end;
 
 constructor TFViewOrdemEntrega.Create(AOwner: TComponent);

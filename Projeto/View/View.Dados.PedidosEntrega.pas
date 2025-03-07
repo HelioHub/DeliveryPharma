@@ -145,13 +145,19 @@ begin
   if PedidosEntregaMemTable.Locate('PedidoPedidosEntrega', DSPedidosDisp.DataSet.FieldByName('NumeroPedidos').AsInteger, []) then
   begin
     Beep;
-    ShowMessage('Pedido já existente!!');
+    ShowMessage('Pedido já existente na Ordem de Entrega!');
     exit;
   end;
   if PedidosEntregaMemTable.RecordCount >= cFive then
   begin
     Beep;
     ShowMessage('Atenção!! Somente 5 Pedidos por Ordem de Entrega.');
+    exit;
+  end;
+  if FPedidosOrdemController.PedidoEmOrdem(DSPedidosDisp.DataSet.FieldByName('NumeroPedidos').AsString) > 0 then
+  begin
+    Beep;
+    ShowMessage('Pedido já em outra Ordem de Entrega!!');
     exit;
   end;
 

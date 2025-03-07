@@ -317,6 +317,13 @@ begin
     ShowMessage('Selecione um registro válido '+cEOL+'para efetuar operação desejada!');
     Exit;
   end;
+  if (DSViewPedidos.DataSet.FieldByName('StatusPedidos').AsInteger > cZero) and
+     (pAcao <> acIncluir) then
+  begin
+    Beep;
+    ShowMessage('Alteração Do Pedido não mais Permitido!'+cEOL+'Pedido já Encaminhado para o Cliente.');
+    Exit;
+  end;
 
   if (pAcao = acExcluir) then
   begin

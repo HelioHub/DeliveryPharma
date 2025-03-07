@@ -22,6 +22,7 @@ type
     procedure CarregarDadosRotas(const AFDMemTable: TFDMemTable; pPedido: String);
     procedure CarregarDadosPedidosOrdem(const AFDMemTable: TFDMemTable;
       pidOrdem: String);
+    function PedidoEmOrdem(const pPedido: String) : Integer;
   end;
 
 implementation
@@ -56,6 +57,12 @@ end;
 function TPedidosEntregaController.GetOrdemEntrega: IPedidosEntrega;
 begin
   Result := FPedidosEntrega;
+end;
+
+function TPedidosEntregaController.PedidoEmOrdem(
+  const pPedido: String): Integer;
+begin
+   result := FPedidosEntrega.PedidoEmOrdem(pPedido);
 end;
 
 function TPedidosEntregaController.SalvarPedidosEntrega(APedidosEntrega: IPedidosEntrega) : Boolean;
