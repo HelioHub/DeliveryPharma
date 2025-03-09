@@ -26,7 +26,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 	Embarcadero® Delphi Community Edition Version 29.0.51961.7529 
 	Copyright © 2024 Embarcadero Technologies, Inc. All Rights Reserved.
 
-## FireBird e IBExpert
+## Banco de dados FireBird e IBExpert
 
 	Firebird-2.5.9.27139_0_Win32.exe
 	https://www.firebirdsql.org/en/firebird-2-5/
@@ -49,7 +49,7 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Criação do Banco de Dados e Objetos 
 
-![## Diagrama de Entidade e Relacionamento](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/CreateDB.png)
+![## Banco](https://github.com/HelioHub/DeliveryPharma/blob/main/BD/CreateDB.png)
 
 ## Script dos Objetos do Banco 
 
@@ -328,11 +328,12 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Telas do Sistemas
 
-	Cadastro de Clientes (com Filtros)
+	Cadastro de Clientes (com Filtros).
 	
-	Cadastro e Acompanhamento de Pedidos com Relatório e Gráficos (com Filtros)
+	Cadastro e Acompanhamento de Pedidos com Relatório e Gráficos (com Filtros).
 	
-	Cadastro e Acompanhamento de Ordem de Entrega e Emissão da Ordem de Entrega Entregador (com Filtros)
+	Cadastro e Acompanhamento de Ordem de Entrega e Emissão da Ordem de Entrega 
+	par o Entregador (com Filtros).
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/CadPedidos.png)
 
@@ -342,14 +343,13 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/AcompanhamentoEntrega.png)
 
-	Pedido Fechado não mexe mais
+	Pedido Fechado não pode mais sofrer alteração.
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/PedidoFechadoNaoMexeMais.png)
 
-	Processos Definição Rota -> Ordem de Entrega -> Saída -> Retorno
+	Processos de Definição de Rota -> Ordem de Entrega -> Saída -> Retorno.
 	
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Processos.png)
-	
 
 ## Ordem de Entrega dos Pedidos 
 
@@ -357,24 +357,24 @@ Cadastro de Pedidos e Ordem de Entrega dos Produtos
 
 ## Feito gráficos na Aplicação em HTML/CSS/JS do Pedido
 
-    De Barra
+    De Barra:
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Grafico1.png)
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/Grafico2.png)
 
-	De Pizza
+	De Pizza:
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GraficoPizza2.png)
 
 ## Utilização do Padrão de Projeto Comportamental VISITOR no cadastro do Produto
 
-	Definição do Preço Atacado ou Varejo.
+	Definição do Preço de Atacado ou Varejo.
 
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/VisitorPattern.png)	
 ![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/TipoCliente.png)	
 
 ## Vídeo monstrando o Funcionando Operacional do Sistema Delivery Pharma
 	
-	..\imagens\GravacaoSistemaDeliveryPharmaFuncionando.mp4
+	C:\<PROJETO>\imagens\GravacaoSistemaDeliveryPharmaFuncionando.mp4
 	
-![## Gráficos CX](https://github.com/HelioHub/DeliveryPharma/blob/main/Imagens/GravacaoSistemaDeliveryPharmaFuncionando.mp4)	
+
 
 
